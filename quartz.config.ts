@@ -8,7 +8,7 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "Quartz 4",
+    pageTitle: "Juhyeon's Blog",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
@@ -92,6 +92,11 @@ const config: QuartzConfig = {
       Plugin.CustomOgImages(),
     ],
   },
+}
+
+export const site = {
+  // ...
+  baseUrl: "https://irregular6612.github.io/blog",
 }
 
 export default config
