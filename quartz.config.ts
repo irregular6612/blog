@@ -94,9 +94,4 @@ const config: QuartzConfig = {
   },
 }
 
-export const site = {
-  // ...
-  baseUrl: "https://irregular6612.github.io/blog",
-}
-
 export default config
