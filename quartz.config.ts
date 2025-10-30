@@ -1,3 +1,7 @@
+// Author: Juhyeon Park
+// Date: 2025-10-30
+// Description: Quartz configuration file
+
 import { QuartzConfig } from "./quartz/cfg"
 import * as Plugin from "./quartz/plugins"
 
