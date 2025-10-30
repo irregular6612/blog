@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - v4
+  repository_dispatch:
+    types: [content-updated]
+  workflow_dispatch:  # 수동 실행 옵션
  
 permissions:
   contents: read
