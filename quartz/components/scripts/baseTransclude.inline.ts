@@ -134,7 +134,11 @@ function renderCellValue(file: any, column: string, value: any): string {
   // If it's file.name, make it a link
   if (column === "file.name") {
     const slug = file.slug || ""
-    return `<a href="/${slug}" class="bases-transclude-link internal">${value}</a>`
+    // Get base path from window location (works for both local and GitHub Pages)
+    const currentPath = window.location.pathname
+    const basePath = currentPath.split('/').filter(p => p).slice(0, 1).join('')
+    const basePrefix = basePath && basePath !== 'public' ? `/${basePath}` : ''
+    return `<a href="${basePrefix}/${slug}" class="bases-transclude-link internal">${value}</a>`
   }
 
   // Handle arrays

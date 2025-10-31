@@ -73,6 +73,14 @@ function evaluateFilter(file: QuartzPluginData, filterStr: string): boolean {
   try {
     const trimmedFilter = filterStr.trim()
     
+    // file.path.startsWith("path")
+    const pathStartsMatch = trimmedFilter.match(/file\.path\.startsWith\s*\(\s*"([^"]+)"\s*\)/)
+    if (pathStartsMatch) {
+      const targetPath = pathStartsMatch[1].toLowerCase().replace(/^public\//i, "")
+      const filePath = (file.relativePath || file.filePath || "").toLowerCase().replace(/^public\//i, "")
+      return filePath.startsWith(targetPath)
+    }
+    
     // file.inFolder("path") - check if file is in folder (exact match or subdirectory)
     const inFolderMatch = trimmedFilter.match(/file\.inFolder\s*\(\s*"([^"]+)"\s*\)/)
     if (inFolderMatch) {
