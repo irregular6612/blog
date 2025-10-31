@@ -77,12 +77,16 @@ const config: QuartzConfig = {
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
       Plugin.Latex({ renderEngine: "katex" }),
+      Plugin.Canvas(),
+      Plugin.Bases(),
     ],
     filters: [Plugin.RemoveDrafts()],
     emitters: [
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
       Plugin.ContentPage(),
+      Plugin.CanvasPage(),
+      Plugin.BasesPage(),
       Plugin.FolderPage(),
       Plugin.TagPage(),
       Plugin.ContentIndex({

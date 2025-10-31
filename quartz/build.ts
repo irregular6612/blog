@@ -72,12 +72,14 @@ async function buildQuartz(argv: Argv, mut: Mutex, clientRefresh: () => void) {
 
   perf.addEvent("glob")
   const allFiles = await glob("**/*.*", argv.directory, cfg.configuration.ignorePatterns)
-  const markdownPaths = allFiles.filter((fp) => fp.endsWith(".md")).sort()
+  const contentPaths = allFiles
+    .filter((fp) => fp.endsWith(".md") || fp.endsWith(".canvas") || fp.endsWith(".base"))
+    .sort()
   console.log(
-    `Found ${markdownPaths.length} input files from \`${argv.directory}\` in ${perf.timeSince("glob")}`,
+    `Found ${contentPaths.length} input files from \`${argv.directory}\` in ${perf.timeSince("glob")}`,
   )
 
-  const filePaths = markdownPaths.map((fp) => joinSegments(argv.directory, fp) as FilePath)
+  const filePaths = contentPaths.map((fp) => joinSegments(argv.directory, fp) as FilePath)
   ctx.allFiles = allFiles
   ctx.allSlugs = allFiles.map((fp) => slugifyFilePath(fp as FilePath))
 
@@ -86,7 +88,7 @@ async function buildQuartz(argv: Argv, mut: Mutex, clientRefresh: () => void) {
 
   await emitContent(ctx, filteredContent)
   console.log(
-    styleText("green", `Done processing ${markdownPaths.length} files in ${perf.timeSince()}`),
+    styleText("green", `Done processing ${contentPaths.length} files in ${perf.timeSince()}`),
   )
   release()
 
@@ -202,7 +204,8 @@ async function rebuild(changes: ChangeEvent[], clientRefresh: () => void, buildD
   const staticResources = getStaticResourcesFromPlugins(ctx)
   const pathsToParse: FilePath[] = []
   for (const [fp, type] of Object.entries(changesSinceLastBuild)) {
-    if (type === "delete" || path.extname(fp) !== ".md") continue
+    const ext = path.extname(fp)
+    if (type === "delete" || (ext !== ".md" && ext !== ".canvas" && ext !== ".base")) continue
     const fullPath = joinSegments(argv.directory, toPosixPath(fp)) as FilePath
     pathsToParse.push(fullPath)
   }
@@ -224,9 +227,10 @@ async function rebuild(changes: ChangeEvent[], clientRefresh: () => void, buildD
       contentMap.delete(file as FilePath)
     }
 
-    // manually track non-markdown files as processed files only
-    // contains markdown files
-    if (change === "add" && path.extname(file) !== ".md") {
+    // manually track non-content files as processed files only
+    // contains content files (.md, .canvas, .base)
+    const ext = path.extname(file)
+    if (change === "add" && ext !== ".md" && ext !== ".canvas" && ext !== ".base") {
       contentMap.set(file as FilePath, {
         type: "other",
       })

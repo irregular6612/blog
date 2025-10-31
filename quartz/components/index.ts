@@ -2,6 +2,8 @@ import Content from "./pages/Content"
 import TagContent from "./pages/TagContent"
 import FolderContent from "./pages/FolderContent"
 import NotFound from "./pages/404"
+import CanvasPage from "./pages/CanvasPage"
+import BasesPage from "./pages/BasesPage"
 import ArticleTitle from "./ArticleTitle"
 import Darkmode from "./Darkmode"
 import ReaderMode from "./ReaderMode"
@@ -29,6 +31,8 @@ export {
   Content,
   TagContent,
   FolderContent,
+  CanvasPage,
+  BasesPage,
   Darkmode,
   ReaderMode,
   Head,

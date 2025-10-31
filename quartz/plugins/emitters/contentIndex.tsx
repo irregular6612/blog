@@ -19,6 +19,8 @@ export type ContentDetails = {
   richContent?: string
   date?: Date
   description?: string
+  bases?: any
+  canvas?: any
 }
 
 interface Options {
@@ -103,7 +105,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
         const slug = file.data.slug!
         const date = getDate(ctx.cfg.configuration, file.data) ?? new Date()
         if (opts?.includeEmptyFiles || (file.data.text && file.data.text !== "")) {
-          linkIndex.set(slug, {
+          const contentDetails: ContentDetails = {
             slug,
             filePath: file.data.relativePath!,
             title: file.data.frontmatter?.title!,
@@ -115,7 +117,29 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
               : undefined,
             date: date,
             description: file.data.description ?? "",
-          })
+          }
+          
+          // Include bases data for .base files (prevent circular reference)
+          if (file.data.bases) {
+            const basesData = file.data.bases
+            contentDetails.bases = {
+              name: basesData.name,
+              view: basesData.view,
+              columns: basesData.columns,
+              files: basesData.files.map((f: any) => ({
+                slug: f.slug,
+                relativePath: f.relativePath,
+                frontmatter: f.frontmatter,
+              })),
+            }
+          }
+          
+          // Include canvas data for .canvas files
+          if (file.data.canvas) {
+            contentDetails.canvas = file.data.canvas
+          }
+          
+          linkIndex.set(slug, contentDetails)
         }
       }
 

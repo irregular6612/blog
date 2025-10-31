@@ -1,3 +1,40 @@
 @use "./base.scss";
 
 // put your custom CSS here!
+
+// Prevent tables from overflowing into sidebars
+.center {
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+  
+  > article {
+    overflow-x: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+article {
+  overflow-x: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  
+  .base-transclude,
+  .bases-page,
+  .canvas-transclude {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+  
+  .bases-transclude-table-wrapper,
+  .bases-table-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+  }
+}

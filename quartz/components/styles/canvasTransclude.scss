@@ -1,0 +1,103 @@
+@use "../../styles/variables.scss" as *;
+
+.canvas-transclude {
+  margin: 1.5rem 0;
+  border: 1px solid var(--lightgray);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--light);
+  max-width: 100%;
+}
+
+.canvas-transclude-container {
+  width: 100%;
+  height: 400px;
+  position: relative;
+  background: var(--light);
+  overflow: hidden;
+}
+
+.canvas-transclude-svg {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.canvas-transclude-node {
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  rect {
+    transition: all 0.2s ease;
+  }
+
+  &:hover rect {
+    filter: brightness(0.95);
+    stroke: var(--secondary);
+    stroke-width: 3;
+  }
+}
+
+.canvas-transclude-node-content {
+  width: 100%;
+  height: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--darkgray);
+  overflow: hidden;
+}
+
+.canvas-transclude-node-link {
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-decoration: none;
+  color: var(--secondary);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--tertiary);
+  }
+}
+
+.canvas-transclude-node-text {
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  text-align: left;
+  align-items: flex-start;
+}
+
+.canvas-transclude-edges line {
+  transition: all 0.2s ease;
+
+  &:hover {
+    stroke: var(--secondary);
+    stroke-width: 3;
+  }
+}
+
+@media all and ($mobile) {
+  .canvas-transclude-container {
+    height: 300px;
+  }
+
+  .canvas-transclude-node-content {
+    padding: 8px;
+  }
+
+  .canvas-transclude-node-link,
+  .canvas-transclude-node-text {
+    font-size: 12px;
+  }
+}
+

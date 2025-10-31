@@ -263,6 +263,18 @@ export const ObsidianFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>>
                       type: "html",
                       value: `<iframe src="${url}" class="pdf"></iframe>`,
                     }
+                  } else if ([".canvas"].includes(ext)) {
+                    return {
+                      type: "html",
+                      data: { hProperties: { transclude: true } },
+                      value: `<div class="transclude canvas-transclude" data-url="${url}" data-embed-alias="${alias}"><a href="${url}" class="transclude-inner">Canvas: ${alias || fp}</a></div>`,
+                    }
+                  } else if ([".base"].includes(ext)) {
+                    return {
+                      type: "html",
+                      data: { hProperties: { transclude: true } },
+                      value: `<div class="transclude base-transclude" data-url="${url}" data-embed-alias="${alias}"><a href="${url}" class="transclude-inner">Database: ${alias || fp}</a></div>`,
+                    }
                   } else {
                     const block = anchor
                     return {
