@@ -38,7 +38,17 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.ReaderMode() },
       ],
     }),
-    Component.Explorer(),
+    Component.Explorer({
+      mapFn: (node) => {
+        // Show .base and .canvas files with their extensions
+        if (node.data?.filePath?.endsWith(".base")) {
+          node.displayName = node.displayName + ".base"
+        } else if (node.data?.filePath?.endsWith(".canvas")) {
+          node.displayName = node.displayName + ".canvas"
+        }
+        return node
+      },
+    }),
   ],
   right: [
     Component.Graph(),
