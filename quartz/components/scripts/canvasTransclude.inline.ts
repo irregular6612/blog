@@ -9,20 +9,20 @@ document.addEventListener("nav", async () => {
     if (!url.endsWith(".canvas") && !url.endsWith("/canvas")) continue
 
     try {
-      // Fetch the canvas data from contentIndex
-      const response = await fetch(`/static/contentIndex.json`)
+      // Fetch the canvas data from canvas-index
+      const response = await fetch(`/static/canvas-index.json`)
       if (!response.ok) {
-        console.warn(`Failed to fetch contentIndex.json`)
+        console.warn(`Failed to fetch canvas-index.json`)
         continue
       }
 
-      const contentIndex = await response.json()
+      const canvasIndex = await response.json()
       
       // Find the canvas file data - try multiple matching strategies
       let canvasData = null
       const cleanUrl = url.replace(/^\//, "").replace(/\.canvas$/, "").toLowerCase()
       
-      for (const [slug, data] of Object.entries(contentIndex)) {
+      for (const [slug, data] of Object.entries(canvasIndex)) {
         const cleanSlug = slug.toLowerCase()
         
         // Try exact match first
@@ -39,7 +39,7 @@ document.addEventListener("nav", async () => {
       }
 
       if (!canvasData) {
-        console.warn(`Canvas data not found for ${url}. Available slugs:`, Object.keys(contentIndex))
+        console.warn(`Canvas data not found for ${url}. Available slugs:`, Object.keys(canvasIndex))
         continue
       }
 

@@ -5,7 +5,7 @@ import HeaderConstructor from "../../components/Header"
 import BodyConstructor from "../../components/Body"
 import { pageResources, renderPage } from "../../components/renderPage"
 import { FullPageLayout } from "../../cfg"
-import { pathToRoot, FilePath, simplifySlug } from "../../util/path"
+import { pathToRoot, FilePath, simplifySlug, FullSlug } from "../../util/path"
 import { defaultContentPageLayout, sharedPageComponents } from "../../../quartz.layout"
 import { BasesPage as BasesPageComponent } from "../../components"
 import { write } from "./helpers"
@@ -73,11 +73,28 @@ function evaluateFilter(file: QuartzPluginData, filterStr: string): boolean {
   try {
     const trimmedFilter = filterStr.trim()
     
+    // file.inFolder("path") - check if file is in folder (exact match or subdirectory)
+    const inFolderMatch = trimmedFilter.match(/file\.inFolder\s*\(\s*"([^"]+)"\s*\)/)
+    if (inFolderMatch) {
+      const targetFolder = inFolderMatch[1].replace(/^public\//i, "").replace(/\/$/, "")
+      const filePath = file.relativePath || file.filePath || ""
+      const fileFolder = filePath.split("/").slice(0, -1).join("/").replace(/^public\//i, "")
+      
+      // Normalize for comparison (case-insensitive + Unicode normalization)
+      const normalizedTarget = targetFolder.toLowerCase().normalize("NFC")
+      const normalizedFolder = fileFolder.toLowerCase().normalize("NFC")
+      
+      // Check if file is in the exact folder or any subfolder
+      return normalizedFolder === normalizedTarget || 
+             normalizedFolder.startsWith(normalizedTarget + "/")
+    }
+    
     // file.folder == "path" (exact match or contains, case-insensitive)
     const folderEqMatch = trimmedFilter.match(/file\.folder\s*==\s*"([^"]+)"/)
     if (folderEqMatch) {
       const targetFolder = folderEqMatch[1].toLowerCase().replace(/^public\//i, "")
-      const fileFolder = (file.relativePath?.split("/").slice(0, -1).join("/") || "").toLowerCase().replace(/^public\//i, "")
+      const filePath = file.relativePath || file.filePath || ""
+      const fileFolder = filePath.split("/").slice(0, -1).join("/").toLowerCase().replace(/^public\//i, "")
       // Support both exact match and contains for flexibility
       return fileFolder === targetFolder || fileFolder.endsWith(targetFolder) || fileFolder.includes("/" + targetFolder)
     }
@@ -86,7 +103,8 @@ function evaluateFilter(file: QuartzPluginData, filterStr: string): boolean {
     const nameEqMatch = trimmedFilter.match(/file\.name\s*==\s*"([^"]+)"/)
     if (nameEqMatch) {
       const targetName = nameEqMatch[1]
-      const fileName = file.relativePath?.split("/").pop()?.replace(/\.md$/, "") || ""
+      const filePath = file.relativePath || file.filePath || ""
+      const fileName = filePath.split("/").pop()?.replace(/\.md$/, "") || ""
       return fileName === targetName
     }
 
@@ -94,7 +112,8 @@ function evaluateFilter(file: QuartzPluginData, filterStr: string): boolean {
     const nameNotMatch = trimmedFilter.match(/file\.name\s*!=\s*"([^"]+)"/)
     if (nameNotMatch) {
       const targetName = nameNotMatch[1]
-      const fileName = file.relativePath?.split("/").pop()?.replace(/\.md$/, "") || ""
+      const filePath = file.relativePath || file.filePath || ""
+      const fileName = filePath.split("/").pop()?.replace(/\.md$/, "") || ""
       return fileName !== targetName
     }
 
@@ -102,27 +121,30 @@ function evaluateFilter(file: QuartzPluginData, filterStr: string): boolean {
     const extMatch = trimmedFilter.match(/file\.ext\s*==\s*"([^"]+)"/)
     if (extMatch) {
       const targetExt = extMatch[1]
-      return file.relativePath?.endsWith(`.${targetExt}`) || false
+      const filePath = file.relativePath || file.filePath || ""
+      return filePath.endsWith(`.${targetExt}`) || false
     }
 
     // file.ext != "base" (extension not match)
     const extNotMatch = trimmedFilter.match(/file\.ext\s*!=\s*"([^"]+)"/)
     if (extNotMatch) {
       const targetExt = extNotMatch[1]
-      return !(file.relativePath?.endsWith(`.${targetExt}`))
+      const filePath = file.relativePath || file.filePath || ""
+      return !(filePath.endsWith(`.${targetExt}`))
     }
 
     // contains(file.folder, "text") or contains(file.path, "text")
     const containsMatch = trimmedFilter.match(/contains\s*\(\s*file\.(folder|path|name)\s*,\s*"([^"]+)"\s*\)/)
     if (containsMatch) {
       const [, field, searchText] = containsMatch
+      const filePath = file.relativePath || file.filePath || ""
       if (field === "folder") {
-        const fileFolder = file.relativePath?.split("/").slice(0, -1).join("/") || ""
+        const fileFolder = filePath.split("/").slice(0, -1).join("/")
         return fileFolder.includes(searchText)
       } else if (field === "path") {
-        return (file.relativePath || "").includes(searchText)
+        return filePath.includes(searchText)
       } else if (field === "name") {
-        const fileName = file.relativePath?.split("/").pop()?.replace(/\.md$/, "") || ""
+        const fileName = filePath.split("/").pop()?.replace(/\.md$/, "") || ""
         return fileName.includes(searchText)
       }
     }
@@ -198,7 +220,7 @@ export const BasesPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts
             // Use first view
             const view = baseFile.views[0]
 
-            // Filter files based on view filters
+            // Filter files based on view filters - use processed content with frontmatter
             const filteredFiles = applyFilters(allFiles, view.filters)
 
             // Extract columns from order
@@ -215,7 +237,9 @@ export const BasesPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts
             file.data.bases = basesData
 
             // Extract links for graph
-            const links: string[] = filteredFiles.map((f) => simplifySlug(f.slug!))
+            const links: string[] = filteredFiles
+              .filter((f) => f.slug)
+              .map((f) => simplifySlug(f.slug!))
             file.data.links = links
 
             // Set title
@@ -240,6 +264,36 @@ export const BasesPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts
             console.error(`Error emitting base page ${file.data.filePath}:`, e)
           }
         }
+      }
+
+      // Third pass: Generate bases-index.json for transclude functionality
+      const basesIndex: Record<string, any> = {}
+      for (const [tree, file] of content) {
+        if (file.data.filePath?.endsWith(".base") && file.data.bases) {
+          const basesData = file.data.bases
+          
+          basesIndex[file.data.slug!] = {
+            bases: {
+              name: basesData.name,
+              view: basesData.view,
+              columns: basesData.columns,
+              files: (basesData.files || []).map((f: any) => ({
+                slug: f.slug,
+                relativePath: f.relativePath || f.filePath,
+                frontmatter: f.frontmatter,
+              })),
+            },
+          }
+        }
+      }
+
+      if (Object.keys(basesIndex).length > 0) {
+        yield write({
+          ctx,
+          content: JSON.stringify(basesIndex),
+          slug: "static/bases-index" as FullSlug,
+          ext: ".json",
+        })
       }
     },
   }

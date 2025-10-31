@@ -5,7 +5,7 @@ import HeaderConstructor from "../../components/Header"
 import BodyConstructor from "../../components/Body"
 import { pageResources, renderPage } from "../../components/renderPage"
 import { FullPageLayout } from "../../cfg"
-import { pathToRoot } from "../../util/path"
+import { pathToRoot, FullSlug } from "../../util/path"
 import { defaultContentPageLayout, sharedPageComponents } from "../../../quartz.layout"
 import { CanvasPage as CanvasPageComponent } from "../../components"
 import { write } from "./helpers"
@@ -137,6 +137,25 @@ export const CanvasPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpt
             console.error(`Error processing canvas file ${file.data.filePath}:`, e)
           }
         }
+      }
+
+      // Generate canvas-index.json for transclude functionality
+      const canvasIndex: Record<string, any> = {}
+      for (const [tree, file] of content) {
+        if (file.data.filePath?.endsWith(".canvas") && file.data.canvas) {
+          canvasIndex[file.data.slug!] = {
+            canvas: file.data.canvas,
+          }
+        }
+      }
+
+      if (Object.keys(canvasIndex).length > 0) {
+        yield write({
+          ctx,
+          content: JSON.stringify(canvasIndex),
+          slug: "static/canvas-index" as FullSlug,
+          ext: ".json",
+        })
       }
     },
   }

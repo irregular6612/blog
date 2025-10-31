@@ -9,20 +9,20 @@ document.addEventListener("nav", async () => {
     if (!url.endsWith(".base") && !url.endsWith("/base")) continue
 
     try {
-      // Fetch the base data from contentIndex
-      const response = await fetch(`/static/contentIndex.json`)
+      // Fetch the base data from bases-index
+      const response = await fetch(`/static/bases-index.json`)
       if (!response.ok) {
-        console.warn(`Failed to fetch contentIndex.json`)
+        console.warn(`Failed to fetch bases-index.json`)
         continue
       }
 
-      const contentIndex = await response.json()
+      const basesIndex = await response.json()
       
       // Find the base file data - try multiple matching strategies
       let baseData = null
       const cleanUrl = url.replace(/^\//, "").replace(/\.base$/, "").toLowerCase()
       
-      for (const [slug, data] of Object.entries(contentIndex)) {
+      for (const [slug, data] of Object.entries(basesIndex)) {
         const cleanSlug = slug.toLowerCase()
         
         // Try exact match first
@@ -39,7 +39,7 @@ document.addEventListener("nav", async () => {
       }
 
       if (!baseData) {
-        console.warn(`Base data not found for ${url}. Available slugs:`, Object.keys(contentIndex))
+        console.warn(`Base data not found for ${url}. Available slugs:`, Object.keys(basesIndex))
         continue
       }
 

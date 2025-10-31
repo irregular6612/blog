@@ -1,5 +1,5 @@
 import { QuartzTransformerPlugin } from "../types"
-import { simplifySlug } from "../../util/path"
+import { simplifySlug, slugifyFilePath, FilePath } from "../../util/path"
 import path from "path"
 import fs from "fs"
 import yaml from "js-yaml"
@@ -44,6 +44,22 @@ interface BaseFile {
 function evaluateFilter(file: any, filterStr: string): boolean {
   try {
     const trimmedFilter = filterStr.trim()
+    
+    // file.inFolder("path") - check if file is in folder (exact match or subdirectory)
+    const inFolderMatch = trimmedFilter.match(/file\.inFolder\s*\(\s*"([^"]+)"\s*\)/)
+    if (inFolderMatch) {
+      const targetFolder = inFolderMatch[1].replace(/^public\//i, "").replace(/\/$/, "")
+      const filePath = file.relativePath || file.filePath || ""
+      const fileFolder = filePath.split("/").slice(0, -1).join("/").replace(/^public\//i, "")
+      
+      // Normalize for comparison (case-insensitive + Unicode normalization)
+      const normalizedTarget = targetFolder.toLowerCase().normalize("NFC")
+      const normalizedFolder = fileFolder.toLowerCase().normalize("NFC")
+      
+      // Check if file is in the exact folder or any subfolder
+      return normalizedFolder === normalizedTarget || 
+             normalizedFolder.startsWith(normalizedTarget + "/")
+    }
     
     // file.folder == "path" (exact match or contains, case-insensitive)
     const folderEqMatch = trimmedFilter.match(/file\.folder\s*==\s*"([^"]+)"/)
@@ -122,8 +138,6 @@ function applyFilters(files: any[], filters: BaseView["filters"]): any[] {
 }
 
 export const Bases: QuartzTransformerPlugin = () => {
-  let allFilesCache: any[] = []
-  
   return {
     name: "Bases",
     textTransform(_ctx, src) {
@@ -133,11 +147,6 @@ export const Bases: QuartzTransformerPlugin = () => {
       return [
         () => {
           return async (_tree, file) => {
-            // Cache all files for later processing
-            if (!allFilesCache.includes(file.data)) {
-              allFilesCache.push(file.data)
-            }
-
             // Process .base files in transformer stage
             if (file.data.filePath?.endsWith(".base")) {
               try {
@@ -149,11 +158,18 @@ export const Bases: QuartzTransformerPlugin = () => {
                 if (baseFile.views && baseFile.views.length > 0) {
                   const view = baseFile.views[0]
 
-                  // Wait a bit to ensure all files are loaded
-                  await new Promise((resolve) => setTimeout(resolve, 10))
+                  // Get all files from ctx (this is populated before transformers run)
+                  const allFiles = ctx.allFiles || []
+                  
+                  // Create file data objects for filtering
+                  const fileDataList = allFiles.map((fp) => ({
+                    relativePath: fp,
+                    slug: slugifyFilePath(fp as FilePath),
+                    frontmatter: {},
+                  }))
 
                   // Filter files based on view filters
-                  const filteredFiles = applyFilters(allFilesCache, view.filters)
+                  const filteredFiles = applyFilters(fileDataList, view.filters)
 
                   // Extract columns from order
                   const columns = view.order || ["file.name"]

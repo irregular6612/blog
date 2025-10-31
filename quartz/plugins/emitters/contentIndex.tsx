@@ -101,10 +101,18 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
     async *emit(ctx, content) {
       const cfg = ctx.cfg.configuration
       const linkIndex: ContentIndexMap = new Map()
+      
+      // First collect all content
+      const allContent = content.map((c) => c[1].data)
+      
       for (const [tree, file] of content) {
         const slug = file.data.slug!
         const date = getDate(ctx.cfg.configuration, file.data) ?? new Date()
-        if (opts?.includeEmptyFiles || (file.data.text && file.data.text !== "")) {
+        
+        // Process .base files even if they have no text
+        const isBaseOrCanvas = file.data.filePath?.endsWith(".base") || file.data.filePath?.endsWith(".canvas")
+        
+        if (opts?.includeEmptyFiles || isBaseOrCanvas || (file.data.text && file.data.text !== "")) {
           const contentDetails: ContentDetails = {
             slug,
             filePath: file.data.relativePath!,
