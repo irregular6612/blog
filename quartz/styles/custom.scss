@@ -2,6 +2,63 @@
 
 // put your custom CSS here!
 
+// Main page styling
+.page[data-slug="index"] {
+  article {
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    
+    h2 {
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--gray);
+      padding-bottom: 0.5rem;
+    }
+    
+    h3 {
+      margin-top: 1.5rem;
+      color: var(--secondary);
+    }
+    
+    // Style the interest areas list
+    ul:first-of-type {
+      list-style: none;
+      padding-left: 0;
+      
+      li {
+        padding: 0.5rem 0;
+        
+        strong {
+          color: var(--secondary);
+        }
+      }
+    }
+    
+    // Style the connect section
+    a[href*="github.com"],
+    a[href*="irregular6612"] {
+      font-weight: 600;
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    
+    // Style the quote at the bottom
+    em {
+      display: block;
+      text-align: center;
+      font-size: 1.1rem;
+      margin-top: 2rem;
+      color: var(--gray);
+    }
+  }
+}
+
 // Prevent tables from overflowing into sidebars
 .center {
   overflow-x: hidden !important;
