@@ -68,18 +68,13 @@ export const defaultContentPageLayout: PageLayout = {
     }),
   ],
   right: [
+    Component.Graph(),
+    Component.DesktopOnly(Component.TableOfContents()),
     Component.ConditionalRender({
-      component: Component.Graph(),
-      condition: (page) => page.fileData.slug === "index",
-    }),
-    Component.DesktopOnly(Component.ConditionalRender({
-      component: Component.TableOfContents(),
-      condition: (page) => page.fileData.slug !== "index",
-    })),
-    Component.ConditionalRender({
-      component: Component.Backlinks(),
+      component: Component.Properties(),
       condition: (page) => page.fileData.slug !== "index",
     }),
+    Component.Backlinks(),
   ],
 }
 
