@@ -45,6 +45,46 @@ function evaluateFilter(file: any, filterStr: string): boolean {
   try {
     const trimmedFilter = filterStr.trim()
     
+    // Property.contains("value") - Check if property contains a value
+    const propContainsMatch = trimmedFilter.match(/^([A-Za-z0-9_-]+)\.contains\s*\(\s*"([^"]+)"\s*\)/)
+    if (propContainsMatch) {
+      const [, propName, searchValue] = propContainsMatch
+      const propValue = file.frontmatter?.[propName]
+      if (!propValue) return false
+      
+      if (Array.isArray(propValue)) {
+        return propValue.some(v => String(v).includes(searchValue))
+      }
+      return String(propValue).includes(searchValue)
+    }
+    
+    // Property == "value" - Check if property equals value
+    const propEqMatch = trimmedFilter.match(/^([A-Za-z0-9_-]+)\s*==\s*"([^"]+)"/)
+    if (propEqMatch) {
+      const [, propName, targetValue] = propEqMatch
+      const propValue = file.frontmatter?.[propName]
+      if (!propValue) return false
+      return String(propValue) === targetValue
+    }
+    
+    // Property != "value" - Check if property not equals value
+    const propNeqMatch = trimmedFilter.match(/^([A-Za-z0-9_-]+)\s*!=\s*"([^"]+)"/)
+    if (propNeqMatch) {
+      const [, propName, targetValue] = propNeqMatch
+      const propValue = file.frontmatter?.[propName]
+      if (!propValue) return true
+      return String(propValue) !== targetValue
+    }
+    
+    // file.folder.startsWith("path")
+    const folderStartsMatch = trimmedFilter.match(/file\.folder\.startsWith\s*\(\s*"([^"]+)"\s*\)/)
+    if (folderStartsMatch) {
+      const targetPath = folderStartsMatch[1].toLowerCase().replace(/^public\//i, "")
+      const filePath = file.relativePath || ""
+      const fileFolder = filePath.split("/").slice(0, -1).join("/").toLowerCase().replace(/^public\//i, "")
+      return fileFolder.startsWith(targetPath)
+    }
+    
     // file.path.startsWith("path")
     const pathStartsMatch = trimmedFilter.match(/file\.path\.startsWith\s*\(\s*"([^"]+)"\s*\)/)
     if (pathStartsMatch) {
