@@ -9,37 +9,37 @@ document.addEventListener("nav", async () => {
     if (!url.endsWith(".canvas") && !url.endsWith("/canvas")) continue
 
     try {
-      // Fetch the canvas data from canvas-index
-      const response = await fetch(`/static/canvas-index.json`)
-      if (!response.ok) {
-        console.warn(`Failed to fetch canvas-index.json`)
-        continue
-      }
-
-      const canvasIndex = await response.json()
+      // Use the global fetchData that's already configured with correct path
+      const contentIndex = await fetchData
       
-      // Find the canvas file data - try multiple matching strategies
+      // Find the canvas file data using filename matching
       let canvasData = null
+      let foundSlug = null
+      
       const cleanUrl = url.replace(/^\//, "").replace(/\.canvas$/, "").toLowerCase()
       
-      for (const [slug, data] of Object.entries(canvasIndex)) {
+      console.log(`[Canvas Transclude] Looking for: "${cleanUrl}"`)
+      
+      // Try to find matching slug using filename
+      for (const [slug, data] of Object.entries(contentIndex)) {
+        if (!(data as any).canvas) continue
+        
         const cleanSlug = slug.toLowerCase()
+        const slugFilename = cleanSlug.split("/").pop()?.replace(".canvas", "")
+        const urlFilename = cleanUrl.split("/").pop()
         
-        // Try exact match first
-        if (cleanSlug === cleanUrl || cleanSlug === cleanUrl + ".canvas") {
+        // Match by filename
+        if (slugFilename === urlFilename) {
           canvasData = (data as any).canvas
-          break
-        }
-        
-        // Try contains match
-        if (cleanSlug.includes(cleanUrl) || cleanUrl.includes(cleanSlug.replace(/\.canvas$/, ""))) {
-          canvasData = (data as any).canvas
+          foundSlug = slug
+          console.log(`[Canvas Transclude] MATCHED by filename: "${urlFilename}"`)
           break
         }
       }
 
       if (!canvasData) {
-        console.warn(`Canvas data not found for ${url}. Available slugs:`, Object.keys(canvasIndex))
+        console.error(`[Canvas Transclude] NOT FOUND: "${cleanUrl}"`)
+        console.log(`Available canvas files:`, Object.keys(contentIndex).filter(s => s.toLowerCase().includes('canvas')).slice(0, 10))
         continue
       }
 

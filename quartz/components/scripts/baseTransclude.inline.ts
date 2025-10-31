@@ -9,37 +9,37 @@ document.addEventListener("nav", async () => {
     if (!url.endsWith(".base") && !url.endsWith("/base")) continue
 
     try {
-      // Fetch the base data from bases-index
-      const response = await fetch(`/static/bases-index.json`)
-      if (!response.ok) {
-        console.warn(`Failed to fetch bases-index.json`)
-        continue
-      }
-
-      const basesIndex = await response.json()
+      // Use the global fetchData that's already configured with correct path
+      const contentIndex = await fetchData
       
-      // Find the base file data - try multiple matching strategies
+      // Find the base file data using filename matching
       let baseData = null
+      let foundSlug = null
+      
       const cleanUrl = url.replace(/^\//, "").replace(/\.base$/, "").toLowerCase()
       
-      for (const [slug, data] of Object.entries(basesIndex)) {
+      console.log(`[Base Transclude] Looking for: "${cleanUrl}"`)
+      
+      // Try to find matching slug using filename
+      for (const [slug, data] of Object.entries(contentIndex)) {
+        if (!(data as any).bases) continue
+        
         const cleanSlug = slug.toLowerCase()
+        const slugFilename = cleanSlug.split("/").pop()?.replace(".base", "")
+        const urlFilename = cleanUrl.split("/").pop()
         
-        // Try exact match first
-        if (cleanSlug === cleanUrl || cleanSlug === cleanUrl + ".base") {
+        // Match by filename
+        if (slugFilename === urlFilename) {
           baseData = (data as any).bases
-          break
-        }
-        
-        // Try contains match
-        if (cleanSlug.includes(cleanUrl) || cleanUrl.includes(cleanSlug.replace(/\.base$/, ""))) {
-          baseData = (data as any).bases
+          foundSlug = slug
+          console.log(`[Base Transclude] MATCHED by filename: "${urlFilename}"`)
           break
         }
       }
 
       if (!baseData) {
-        console.warn(`Base data not found for ${url}. Available slugs:`, Object.keys(basesIndex))
+        console.error(`[Base Transclude] NOT FOUND: "${cleanUrl}"`)
+        console.log(`Available base files:`, Object.keys(contentIndex).filter(s => s.toLowerCase().includes('base')).slice(0, 10))
         continue
       }
 
