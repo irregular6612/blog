@@ -33,49 +33,61 @@ export default ((userOpts?: Partial<Options>) => {
     cfg,
   }: QuartzComponentProps) => {
     const opts = { ...defaultOptions(cfg), ...userOpts }
-    const pages = allFiles.filter(opts.filter).sort(opts.sort)
-    const remaining = Math.max(0, pages.length - opts.limit)
+    const filtered = allFiles.filter(opts.filter).sort(opts.sort)
+
+    const pinnedPages = filtered.filter((f) => f.frontmatter?.pinned === true)
+    const regularPages = filtered.filter((f) => f.frontmatter?.pinned !== true)
+    const remaining = Math.max(0, regularPages.length - opts.limit)
+
+    const renderItem = (page: QuartzPluginData, pinned = false) => {
+      const title = page.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
+      const tags = page.frontmatter?.tags ?? []
+
+      return (
+        <li class="recent-li">
+          <div class="section">
+            <div class="desc">
+              <h3>
+                {pinned && (
+                  <span class="pinned-icon" aria-label="고정된 글">
+                    {"📌 "}
+                  </span>
+                )}
+                <a href={resolveRelative(fileData.slug!, page.slug!)} class="internal">
+                  {title}
+                </a>
+              </h3>
+            </div>
+            {page.dates && (
+              <p class="meta">
+                <Date date={getDate(cfg, page)!} locale={cfg.locale} />
+              </p>
+            )}
+            {opts.showTags && (
+              <ul class="tags">
+                {tags.map((tag) => (
+                  <li>
+                    <a
+                      class="internal tag-link"
+                      href={resolveRelative(fileData.slug!, `tags/${tag}` as FullSlug)}
+                    >
+                      {tag}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </li>
+      )
+    }
+
     return (
       <div class={classNames(displayClass, "recent-notes")}>
         <h3>{opts.title ?? i18n(cfg.locale).components.recentNotes.title}</h3>
         <ul class="recent-ul">
-          {pages.slice(0, opts.limit).map((page) => {
-            const title = page.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
-            const tags = page.frontmatter?.tags ?? []
-
-            return (
-              <li class="recent-li">
-                <div class="section">
-                  <div class="desc">
-                    <h3>
-                      <a href={resolveRelative(fileData.slug!, page.slug!)} class="internal">
-                        {title}
-                      </a>
-                    </h3>
-                  </div>
-                  {page.dates && (
-                    <p class="meta">
-                      <Date date={getDate(cfg, page)!} locale={cfg.locale} />
-                    </p>
-                  )}
-                  {opts.showTags && (
-                    <ul class="tags">
-                      {tags.map((tag) => (
-                        <li>
-                          <a
-                            class="internal tag-link"
-                            href={resolveRelative(fileData.slug!, `tags/${tag}` as FullSlug)}
-                          >
-                            {tag}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </li>
-            )
-          })}
+          {pinnedPages.map((page) => renderItem(page, true))}
+          {regularPages.slice(0, opts.limit).map((page) => renderItem(page))}
         </ul>
         {opts.linkToMore && remaining > 0 && (
           <p>

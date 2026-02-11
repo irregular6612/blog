@@ -72,20 +72,22 @@ async function processBases(
 function evaluateFilter(file: QuartzPluginData, filterStr: string): boolean {
   try {
     const trimmedFilter = filterStr.trim()
-    
+
     // Property.contains("value") - Check if property contains a value
-    const propContainsMatch = trimmedFilter.match(/^([A-Za-z0-9_-]+)\.contains\s*\(\s*"([^"]+)"\s*\)/)
+    const propContainsMatch = trimmedFilter.match(
+      /^([A-Za-z0-9_-]+)\.contains\s*\(\s*"([^"]+)"\s*\)/,
+    )
     if (propContainsMatch) {
       const [, propName, searchValue] = propContainsMatch
       const propValue = file.frontmatter?.[propName]
       if (!propValue) return false
-      
+
       if (Array.isArray(propValue)) {
-        return propValue.some(v => String(v).includes(searchValue))
+        return propValue.some((v) => String(v).includes(searchValue))
       }
       return String(propValue).includes(searchValue)
     }
-    
+
     // Property == "value" - Check if property equals value
     const propEqMatch = trimmedFilter.match(/^([A-Za-z0-9_-]+)\s*==\s*"([^"]+)"/)
     if (propEqMatch) {
@@ -94,7 +96,7 @@ function evaluateFilter(file: QuartzPluginData, filterStr: string): boolean {
       if (!propValue) return false
       return String(propValue) === targetValue
     }
-    
+
     // Property != "value" - Check if property not equals value
     const propNeqMatch = trimmedFilter.match(/^([A-Za-z0-9_-]+)\s*!=\s*"([^"]+)"/)
     if (propNeqMatch) {
@@ -103,48 +105,69 @@ function evaluateFilter(file: QuartzPluginData, filterStr: string): boolean {
       if (!propValue) return true
       return String(propValue) !== targetValue
     }
-    
+
     // file.folder.startsWith("path")
     const folderStartsMatch = trimmedFilter.match(/file\.folder\.startsWith\s*\(\s*"([^"]+)"\s*\)/)
     if (folderStartsMatch) {
       const targetPath = folderStartsMatch[1].toLowerCase().replace(/^public\//i, "")
       const filePath = file.relativePath || file.filePath || ""
-      const fileFolder = filePath.split("/").slice(0, -1).join("/").toLowerCase().replace(/^public\//i, "")
+      const fileFolder = filePath
+        .split("/")
+        .slice(0, -1)
+        .join("/")
+        .toLowerCase()
+        .replace(/^public\//i, "")
       return fileFolder.startsWith(targetPath)
     }
-    
+
     // file.path.startsWith("path")
     const pathStartsMatch = trimmedFilter.match(/file\.path\.startsWith\s*\(\s*"([^"]+)"\s*\)/)
     if (pathStartsMatch) {
       const targetPath = pathStartsMatch[1].toLowerCase().replace(/^public\//i, "")
-      const filePath = (file.relativePath || file.filePath || "").toLowerCase().replace(/^public\//i, "")
+      const filePath = (file.relativePath || file.filePath || "")
+        .toLowerCase()
+        .replace(/^public\//i, "")
       return filePath.startsWith(targetPath)
     }
-    
+
     // file.inFolder("path") - check if file is in folder (exact match or subdirectory)
     const inFolderMatch = trimmedFilter.match(/file\.inFolder\s*\(\s*"([^"]+)"\s*\)/)
     if (inFolderMatch) {
       const targetFolder = inFolderMatch[1].replace(/^public\//i, "").replace(/\/$/, "")
       const filePath = file.relativePath || file.filePath || ""
-      const fileFolder = filePath.split("/").slice(0, -1).join("/").replace(/^public\//i, "")
-      
+      const fileFolder = filePath
+        .split("/")
+        .slice(0, -1)
+        .join("/")
+        .replace(/^public\//i, "")
+
       // Normalize for comparison (case-insensitive + Unicode normalization)
       const normalizedTarget = targetFolder.toLowerCase().normalize("NFC")
       const normalizedFolder = fileFolder.toLowerCase().normalize("NFC")
-      
+
       // Check if file is in the exact folder or any subfolder
-      return normalizedFolder === normalizedTarget || 
-             normalizedFolder.startsWith(normalizedTarget + "/")
+      return (
+        normalizedFolder === normalizedTarget || normalizedFolder.startsWith(normalizedTarget + "/")
+      )
     }
-    
+
     // file.folder == "path" (exact match or contains, case-insensitive)
     const folderEqMatch = trimmedFilter.match(/file\.folder\s*==\s*"([^"]+)"/)
     if (folderEqMatch) {
       const targetFolder = folderEqMatch[1].toLowerCase().replace(/^public\//i, "")
       const filePath = file.relativePath || file.filePath || ""
-      const fileFolder = filePath.split("/").slice(0, -1).join("/").toLowerCase().replace(/^public\//i, "")
+      const fileFolder = filePath
+        .split("/")
+        .slice(0, -1)
+        .join("/")
+        .toLowerCase()
+        .replace(/^public\//i, "")
       // Support both exact match and contains for flexibility
-      return fileFolder === targetFolder || fileFolder.endsWith(targetFolder) || fileFolder.includes("/" + targetFolder)
+      return (
+        fileFolder === targetFolder ||
+        fileFolder.endsWith(targetFolder) ||
+        fileFolder.includes("/" + targetFolder)
+      )
     }
 
     // file.name == "name" (exact match)
@@ -178,11 +201,13 @@ function evaluateFilter(file: QuartzPluginData, filterStr: string): boolean {
     if (extNotMatch) {
       const targetExt = extNotMatch[1]
       const filePath = file.relativePath || file.filePath || ""
-      return !(filePath.endsWith(`.${targetExt}`))
+      return !filePath.endsWith(`.${targetExt}`)
     }
 
     // contains(file.folder, "text") or contains(file.path, "text")
-    const containsMatch = trimmedFilter.match(/contains\s*\(\s*file\.(folder|path|name)\s*,\s*"([^"]+)"\s*\)/)
+    const containsMatch = trimmedFilter.match(
+      /contains\s*\(\s*file\.(folder|path|name)\s*,\s*"([^"]+)"\s*\)/,
+    )
     if (containsMatch) {
       const [, field, searchText] = containsMatch
       const filePath = file.relativePath || file.filePath || ""
@@ -319,7 +344,7 @@ export const BasesPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts
       for (const [tree, file] of content) {
         if (file.data.filePath?.endsWith(".base") && file.data.bases) {
           const basesData = file.data.bases
-          
+
           basesIndex[file.data.slug!] = {
             bases: {
               name: basesData.name,

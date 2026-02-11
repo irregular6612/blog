@@ -101,18 +101,23 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
     async *emit(ctx, content) {
       const cfg = ctx.cfg.configuration
       const linkIndex: ContentIndexMap = new Map()
-      
+
       // First collect all content
       const allContent = content.map((c) => c[1].data)
-      
+
       for (const [tree, file] of content) {
         const slug = file.data.slug!
         const date = getDate(ctx.cfg.configuration, file.data) ?? new Date()
-        
+
         // Process .base files even if they have no text
-        const isBaseOrCanvas = file.data.filePath?.endsWith(".base") || file.data.filePath?.endsWith(".canvas")
-        
-        if (opts?.includeEmptyFiles || isBaseOrCanvas || (file.data.text && file.data.text !== "")) {
+        const isBaseOrCanvas =
+          file.data.filePath?.endsWith(".base") || file.data.filePath?.endsWith(".canvas")
+
+        if (
+          opts?.includeEmptyFiles ||
+          isBaseOrCanvas ||
+          (file.data.text && file.data.text !== "")
+        ) {
           const contentDetails: ContentDetails = {
             slug,
             filePath: file.data.relativePath!,
@@ -126,7 +131,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
             date: date,
             description: file.data.description ?? "",
           }
-          
+
           // Include bases data for .base files (prevent circular reference)
           if (file.data.bases) {
             const basesData = file.data.bases
@@ -141,12 +146,12 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
               })),
             }
           }
-          
+
           // Include canvas data for .canvas files
           if (file.data.canvas) {
             contentDetails.canvas = file.data.canvas
           }
-          
+
           linkIndex.set(slug, contentDetails)
         }
       }

@@ -1,0 +1,83 @@
+.keyboard-shortcuts-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+
+  &.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.keyboard-shortcuts-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.keyboard-shortcuts-content {
+  position: relative;
+  background: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 8px;
+  padding: 1.5rem;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.keyboard-shortcuts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  h3 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+}
+
+.keyboard-shortcuts-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--darkgray);
+  line-height: 1;
+  padding: 0;
+
+  &:hover {
+    color: var(--dark);
+  }
+}
+
+.keyboard-shortcuts-body {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    td {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--lightgray);
+    }
+
+    td:first-child {
+      white-space: nowrap;
+      padding-right: 1.5rem;
+    }
+  }
+
+  kbd {
+    display: inline-block;
+    padding: 0.15rem 0.4rem;
+    font-size: 0.8rem;
+    font-family: var(--codeFont);
+    background: var(--lightgray);
+    border: 1px solid var(--gray);
+    border-radius: 3px;
+    box-shadow: 0 1px 0 var(--gray);
+  }
+}

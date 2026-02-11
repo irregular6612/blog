@@ -36,6 +36,46 @@ export default (() => {
     )
     const ogImageDefaultPath = `https://${cfg.baseUrl}/static/og-image.png`
 
+    // JSON-LD structured data
+    const jsonLd: Record<string, unknown>[] = []
+
+    if (fileData.slug && fileData.slug !== "404" && fileData.slug !== "index") {
+      const articleSchema: Record<string, unknown> = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: fileData.frontmatter?.title ?? title,
+        description,
+        url: socialUrl,
+        author: {
+          "@type": "Person",
+          name: cfg.pageTitle,
+        },
+      }
+      if (fileData.dates?.created) {
+        articleSchema.datePublished = fileData.dates.created.toISOString()
+      }
+      if (fileData.dates?.modified) {
+        articleSchema.dateModified = fileData.dates.modified.toISOString()
+      }
+      jsonLd.push(articleSchema)
+
+      // BreadcrumbList from slug path segments
+      const slugParts = fileData.slug.split("/").filter(Boolean)
+      if (slugParts.length > 0) {
+        const breadcrumbItems = slugParts.map((part, idx) => ({
+          "@type": "ListItem",
+          position: idx + 1,
+          name: idx === slugParts.length - 1 ? (fileData.frontmatter?.title ?? part) : part,
+          item: `https://${cfg.baseUrl}/${slugParts.slice(0, idx + 1).join("/")}`,
+        }))
+        jsonLd.push({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: breadcrumbItems,
+        })
+      }
+    }
+
     return (
       <head>
         <title>{title}</title>
@@ -85,6 +125,13 @@ export default (() => {
         <link rel="icon" href={iconPath} />
         <meta name="description" content={description} />
         <meta name="generator" content="Quartz" />
+
+        {jsonLd.map((schema) => (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+          />
+        ))}
 
         {css.map((resource) => CSSResourceToStyleElement(resource, true))}
         {js

@@ -11,23 +11,26 @@ document.addEventListener("nav", async () => {
     try {
       // Use the global fetchData that's already configured with correct path
       const contentIndex = await fetchData
-      
+
       // Find the base file data using filename matching
       let baseData = null
       let foundSlug = null
-      
-      const cleanUrl = url.replace(/^\//, "").replace(/\.base$/, "").toLowerCase()
-      
+
+      const cleanUrl = url
+        .replace(/^\//, "")
+        .replace(/\.base$/, "")
+        .toLowerCase()
+
       console.log(`[Base Transclude] Looking for: "${cleanUrl}"`)
-      
+
       // Try to find matching slug using filename
       for (const [slug, data] of Object.entries(contentIndex)) {
         if (!(data as any).bases) continue
-        
+
         const cleanSlug = slug.toLowerCase()
         const slugFilename = cleanSlug.split("/").pop()?.replace(".base", "")
         const urlFilename = cleanUrl.split("/").pop()
-        
+
         // Match by filename
         if (slugFilename === urlFilename) {
           baseData = (data as any).bases
@@ -39,7 +42,12 @@ document.addEventListener("nav", async () => {
 
       if (!baseData) {
         console.error(`[Base Transclude] NOT FOUND: "${cleanUrl}"`)
-        console.log(`Available base files:`, Object.keys(contentIndex).filter(s => s.toLowerCase().includes('base')).slice(0, 10))
+        console.log(
+          `Available base files:`,
+          Object.keys(contentIndex)
+            .filter((s) => s.toLowerCase().includes("base"))
+            .slice(0, 10),
+        )
         continue
       }
 
@@ -83,13 +91,13 @@ function renderBaseTable(baseData: any): string {
   // Render rows
   for (const file of files) {
     html += `<tr class="bases-transclude-row">`
-    
+
     for (const column of columns) {
       const value = getColumnValue(file, column)
       const displayValue = String(value).replace(/"/g, "&quot;")
       html += `<td class="bases-transclude-td" title="${displayValue}">${renderCellValue(file, column, value)}</td>`
     }
-    
+
     html += `</tr>`
   }
 
@@ -136,16 +144,20 @@ function renderCellValue(file: any, column: string, value: any): string {
     const slug = file.slug || ""
     // Get base path from window location (works for both local and GitHub Pages)
     const currentPath = window.location.pathname
-    const basePath = currentPath.split('/').filter(p => p).slice(0, 1).join('')
-    const basePrefix = basePath && basePath !== 'public' ? `/${basePath}` : ''
+    const basePath = currentPath
+      .split("/")
+      .filter((p) => p)
+      .slice(0, 1)
+      .join("")
+    const basePrefix = basePath && basePath !== "public" ? `/${basePath}` : ""
     return `<a href="${basePrefix}/${slug}" class="bases-transclude-link internal">${value}</a>`
   }
 
   // Handle arrays
   if (Array.isArray(value)) {
-    return `<div class="bases-transclude-array">${value.map((item) => 
-      `<span class="bases-transclude-array-item">${item}</span>`
-    ).join("")}</div>`
+    return `<div class="bases-transclude-array">${value
+      .map((item) => `<span class="bases-transclude-array-item">${item}</span>`)
+      .join("")}</div>`
   }
 
   // Handle objects
@@ -155,5 +167,3 @@ function renderCellValue(file: any, column: string, value: any): string {
 
   return String(value)
 }
-
-

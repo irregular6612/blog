@@ -16,7 +16,7 @@ export default ((opts?: Partial<PropertiesOptions>) => {
 
   const Properties: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
     const frontmatter = fileData.frontmatter || {}
-    
+
     // Filter out excluded keys and empty values
     const properties = Object.entries(frontmatter)
       .filter(([key]) => !options.excludeKeys.includes(key))
@@ -45,7 +45,7 @@ export default ((opts?: Partial<PropertiesOptions>) => {
         .replace(/_/g, " ")
         .replace(/-/g, " ")
         .split(" ")
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ")
     }
 
@@ -149,4 +149,3 @@ export default ((opts?: Partial<PropertiesOptions>) => {
 
   return Properties
 }) satisfies QuartzComponentConstructor
-

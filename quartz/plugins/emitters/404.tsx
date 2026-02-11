@@ -27,9 +27,10 @@ export const NotFoundPage: QuartzEmitterPlugin = () => {
     getQuartzComponents() {
       return [Head, Body, pageBody, Footer]
     },
-    async *emit(ctx, _content, resources) {
+    async *emit(ctx, content, resources) {
       const cfg = ctx.cfg.configuration
       const slug = "404" as FullSlug
+      const allFiles = content.map((c) => c[1].data)
 
       const url = new URL(`https://${cfg.baseUrl ?? "example.com"}`)
       const path = url.pathname as FullSlug
@@ -48,7 +49,7 @@ export const NotFoundPage: QuartzEmitterPlugin = () => {
         cfg,
         children: [],
         tree,
-        allFiles: [],
+        allFiles,
       }
 
       yield write({

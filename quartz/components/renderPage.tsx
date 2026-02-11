@@ -215,7 +215,7 @@ export function renderPage(
   const Body = BodyConstructor()
 
   const LeftComponent = (
-    <div class="left sidebar">
+    <div class="left sidebar" role="navigation" aria-label="Site navigation">
       {left.map((BodyComponent) => (
         <BodyComponent {...componentData} />
       ))}
@@ -223,7 +223,7 @@ export function renderPage(
   )
 
   const RightComponent = (
-    <div class="right sidebar">
+    <div class="right sidebar" role="complementary" aria-label="Additional information">
       {right.map((BodyComponent) => (
         <BodyComponent {...componentData} />
       ))}
@@ -236,6 +236,9 @@ export function renderPage(
     <html lang={lang} dir={direction}>
       <Head {...componentData} />
       <body data-slug={slug}>
+        <a href="#main-content" class="skip-link">
+          본문으로 건너뛰기
+        </a>
         <div id="quartz-root" class="page">
           <Body {...componentData}>
             {LeftComponent}

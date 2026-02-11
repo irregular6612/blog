@@ -67,7 +67,7 @@ function BasesRenderer({ bases, baseUrl }: BasesPageProps) {
   const getFileUrl = (file: QuartzPluginData) => {
     const slug = file.slug || ""
     // Extract only the path portion of baseUrl (e.g., "blog" from "irregular6612.github.io/blog")
-    const baseUrlPath = baseUrl ? baseUrl.split('/').pop() : ''
+    const baseUrlPath = baseUrl ? baseUrl.split("/").pop() : ""
     return baseUrlPath ? `/${baseUrlPath}/${slug}` : `/${slug}`
   }
 

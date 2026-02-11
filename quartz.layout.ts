@@ -4,8 +4,8 @@ import * as Component from "./quartz/components"
 // components shared across all pages
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
-  header: [],
-  afterBody: [],
+  header: [Component.ReadingProgress()],
+  afterBody: [Component.KeyboardShortcuts()],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/irregular6612",
@@ -40,6 +40,10 @@ export const defaultContentPageLayout: PageLayout = {
         filter: (f) => f.slug !== "index",
       }),
       condition: (page) => page.fileData.slug === "index",
+    }),
+    Component.ConditionalRender({
+      component: Component.SocialShare(),
+      condition: (page) => page.fileData.slug !== "index",
     }),
   ],
   left: [
