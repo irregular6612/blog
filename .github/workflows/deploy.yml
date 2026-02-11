@@ -32,7 +32,7 @@ jobs:
         with:
           repository: irregular6612/blog-content
           path: content
-          lfs: true     # LFS 쓰면 켜두기
+          lfs: false     # LFS 쓰면 켜두기 / off로 변경.
           token: ${{ secrets.GH_TOKEN }}
         
         # 3) Quartz 빌드

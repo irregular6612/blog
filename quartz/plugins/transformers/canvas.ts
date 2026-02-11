@@ -1,7 +1,4 @@
 import { QuartzTransformerPlugin } from "../types"
-import { Root } from "mdast"
-import { VFile } from "vfile"
-import path from "path"
 // @ts-ignore
 import canvasTranscludeScript from "../../components/scripts/canvasTransclude.inline"
 import canvasTranscludeStyle from "../../components/styles/canvasTransclude.scss"
@@ -47,7 +44,7 @@ export const Canvas: QuartzTransformerPlugin = () => {
     },
     externalResources() {
       return {
-        css: [canvasTranscludeStyle],
+        css: [{ content: canvasTranscludeStyle }],
         js: [
           {
             src: "https://unpkg.com/panzoom@9.4.3/dist/panzoom.min.js",
@@ -64,4 +61,3 @@ export const Canvas: QuartzTransformerPlugin = () => {
     },
   }
 }
-

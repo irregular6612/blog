@@ -1,11 +1,10 @@
-import path from "path"
 import { QuartzEmitterPlugin } from "../types"
 import { QuartzComponentProps } from "../../components/types"
 import HeaderConstructor from "../../components/Header"
 import BodyConstructor from "../../components/Body"
 import { pageResources, renderPage } from "../../components/renderPage"
 import { FullPageLayout } from "../../cfg"
-import { pathToRoot, FullSlug } from "../../util/path"
+import { pathToRoot, FullSlug, SimpleSlug } from "../../util/path"
 import { defaultContentPageLayout, sharedPageComponents } from "../../../quartz.layout"
 import { CanvasPage as CanvasPageComponent } from "../../components"
 import { write } from "./helpers"
@@ -44,7 +43,7 @@ interface CanvasData {
 
 async function processCanvas(
   ctx: BuildCtx,
-  tree: Node,
+  _tree: Node,
   fileData: QuartzPluginData,
   allFiles: QuartzPluginData[],
   opts: FullPageLayout,
@@ -59,7 +58,7 @@ async function processCanvas(
     externalResources,
     cfg,
     children: [],
-    tree,
+    tree: _tree,
     allFiles,
   }
 
@@ -113,7 +112,7 @@ export const CanvasPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpt
 
             // Store canvas data in file.data for use by components
             file.data.canvas = canvasData
-            
+
             // Extract links from canvas nodes for graph
             const links: string[] = []
             canvasData.nodes.forEach((node) => {
@@ -123,11 +122,12 @@ export const CanvasPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpt
                 links.push(slug)
               }
             })
-            file.data.links = links
-            
+            file.data.links = links as SimpleSlug[]
+
             // Set title from filename if not set
             if (!file.data.frontmatter?.title) {
-              const fileName = file.data.filePath.split("/").pop()?.replace(".canvas", "") || "Canvas"
+              const fileName =
+                file.data.filePath.split("/").pop()?.replace(".canvas", "") || "Canvas"
               file.data.frontmatter = { ...file.data.frontmatter, title: fileName }
             }
 
@@ -141,7 +141,7 @@ export const CanvasPage: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpt
 
       // Generate canvas-index.json for transclude functionality
       const canvasIndex: Record<string, any> = {}
-      for (const [tree, file] of content) {
+      for (const [_tree, file] of content) {
         if (file.data.filePath?.endsWith(".canvas") && file.data.canvas) {
           canvasIndex[file.data.slug!] = {
             canvas: file.data.canvas,

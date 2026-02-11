@@ -11,27 +11,28 @@ document.addEventListener("nav", async () => {
     try {
       // Use the global fetchData that's already configured with correct path
       const contentIndex = await fetchData
-      
+
       // Find the canvas file data using filename matching
       let canvasData = null
-      let foundSlug = null
-      
-      const cleanUrl = url.replace(/^\//, "").replace(/\.canvas$/, "").toLowerCase()
-      
+
+      const cleanUrl = url
+        .replace(/^\//, "")
+        .replace(/\.canvas$/, "")
+        .toLowerCase()
+
       console.log(`[Canvas Transclude] Looking for: "${cleanUrl}"`)
-      
+
       // Try to find matching slug using filename
       for (const [slug, data] of Object.entries(contentIndex)) {
         if (!(data as any).canvas) continue
-        
+
         const cleanSlug = slug.toLowerCase()
         const slugFilename = cleanSlug.split("/").pop()?.replace(".canvas", "")
         const urlFilename = cleanUrl.split("/").pop()
-        
+
         // Match by filename
         if (slugFilename === urlFilename) {
           canvasData = (data as any).canvas
-          foundSlug = slug
           console.log(`[Canvas Transclude] MATCHED by filename: "${urlFilename}"`)
           break
         }
@@ -39,7 +40,12 @@ document.addEventListener("nav", async () => {
 
       if (!canvasData) {
         console.error(`[Canvas Transclude] NOT FOUND: "${cleanUrl}"`)
-        console.log(`Available canvas files:`, Object.keys(contentIndex).filter(s => s.toLowerCase().includes('canvas')).slice(0, 10))
+        console.log(
+          `Available canvas files:`,
+          Object.keys(contentIndex)
+            .filter((s) => s.toLowerCase().includes("canvas"))
+            .slice(0, 10),
+        )
         continue
       }
 
@@ -165,9 +171,8 @@ function getFileUrl(filePath: string, baseUrl: string): string {
     .replace(/\s+/g, "-")
     .toLowerCase()
     .replace(/^public\//, "")
-  
+
   // Extract base path from baseUrl (remove leading slash if present)
   const basePath = baseUrl.replace(/^\//, "").split("/")[0]
   return basePath ? `/${basePath}/${slug}` : `/${slug}`
 }
-

@@ -1,5 +1,4 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
-import { classNames } from "../../util/lang"
 
 interface CanvasNode {
   id: string
@@ -104,14 +103,7 @@ function CanvasRenderer({ canvas, baseUrl }: CanvasPageProps) {
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
-          <marker
-            id="arrowhead"
-            markerWidth="10"
-            markerHeight="10"
-            refX="9"
-            refY="3"
-            orient="auto"
-          >
+          <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
             <polygon points="0 0, 10 3, 0 6" fill="var(--gray)" />
           </marker>
         </defs>
@@ -161,12 +153,7 @@ function CanvasRenderer({ canvas, baseUrl }: CanvasPageProps) {
                 {/* Node content */}
                 {isFile && node.file ? (
                   <a href={getFileUrl(node.file)} className="canvas-node-link">
-                    <foreignObject
-                      x={node.x}
-                      y={node.y}
-                      width={node.width}
-                      height={node.height}
-                    >
+                    <foreignObject x={node.x} y={node.y} width={node.width} height={node.height}>
                       <div className="canvas-node-content">
                         <div className="canvas-node-title">
                           {node.file.split("/").pop()?.replace(".md", "")}
@@ -176,9 +163,7 @@ function CanvasRenderer({ canvas, baseUrl }: CanvasPageProps) {
                   </a>
                 ) : node.type === "text" ? (
                   <foreignObject x={node.x} y={node.y} width={node.width} height={node.height}>
-                    <div className="canvas-node-content canvas-node-text">
-                      {node.text || ""}
-                    </div>
+                    <div className="canvas-node-content canvas-node-text">{node.text || ""}</div>
                   </foreignObject>
                 ) : node.type === "link" && node.file?.match(/\.(png|jpg|jpeg|gif|webp)$/i) ? (
                   <image
@@ -209,7 +194,7 @@ const CanvasPage: QuartzComponent = (props: QuartzComponentProps) => {
 
   return (
     <div className="canvas-page">
-      <CanvasRenderer canvas={canvas} baseUrl={cfg?.configuration?.baseUrl || ""} />
+      <CanvasRenderer canvas={canvas} baseUrl={cfg?.baseUrl || ""} />
       <script
         dangerouslySetInnerHTML={{
           __html: `
