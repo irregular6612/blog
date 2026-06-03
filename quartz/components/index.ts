@@ -4,6 +4,7 @@ import FolderContent from "./pages/FolderContent"
 import NotFound from "./pages/404"
 import CanvasPage from "./pages/CanvasPage"
 import BasesPage from "./pages/BasesPage"
+import PapersDashboard from "./pages/PapersDashboard"
 import ArticleTitle from "./ArticleTitle"
 import Darkmode from "./Darkmode"
 import ReaderMode from "./ReaderMode"
@@ -37,6 +38,7 @@ export {
   FolderContent,
   CanvasPage,
   BasesPage,
+  PapersDashboard,
   Darkmode,
   ReaderMode,
   Head,

@@ -19,6 +19,9 @@ description: Juhyeon's Tech Blog - AI, Deep Learning, Statistics
 
 ## 📚 주요 콘텐츠
 
+### [📚 Papers 대시보드](/papers)
+전체 논문 리뷰를 카테고리·연도·평가 기준으로 한눈에 — 검색·필터·정렬 가능
+
 ### [Deep Learning](/Deep-Learning)
 딥러닝의 기초 개념부터 실전 응용까지, PyTorch를 활용한 구현 예제와 학습 노트
 
