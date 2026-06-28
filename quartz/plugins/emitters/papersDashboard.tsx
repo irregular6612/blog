@@ -5,7 +5,7 @@ import BodyConstructor from "../../components/Body"
 import { pageResources, renderPage } from "../../components/renderPage"
 import { FullPageLayout } from "../../cfg"
 import { pathToRoot, FullSlug } from "../../util/path"
-import { defaultContentPageLayout, sharedPageComponents } from "../../../quartz.layout"
+import { landingLayout, sharedPageComponents } from "../../../quartz.layout"
 import { PapersDashboard as PapersDashboardComponent } from "../../components"
 import { write } from "./helpers"
 import { defaultProcessedContent } from "../vfile"
@@ -14,12 +14,12 @@ import { aggregate, extractPaperRecord, selectSpotlight, DashboardData } from ".
 const DASHBOARD_SLUG = "papers" as FullSlug
 
 export const PapersDashboard: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) => {
-  const opts: FullPageLayout = {
+  const opts = {
     ...sharedPageComponents,
-    ...defaultContentPageLayout,
+    ...landingLayout,
     pageBody: PapersDashboardComponent(),
     ...userOpts,
-  }
+  } as FullPageLayout
 
   const { head: Head, header, beforeBody, pageBody, afterBody, left, right, footer: Footer } = opts
   const Header = HeaderConstructor()
