@@ -38,7 +38,9 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const aff = profile.affiliation
   const pubs = selectedPublications(publications)
   const papersHref = resolveRelative(slug, "papers" as FullSlug)
-  const wikiHref = resolveRelative(slug, "AI" as FullSlug)
+  // Trailing slash: "AI" is a folder index. Without it, relative links on the
+  // destination (e.g. PageTitle's "..") resolve against the user root and 404.
+  const wikiHref = resolveRelative(slug, "AI" as FullSlug) + "/"
 
   return (
     <div class="portfolio-root">

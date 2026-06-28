@@ -9,6 +9,12 @@ interface NavLink {
   label: string
   target: FullSlug
   anchor?: string
+  // Folder targets must keep a trailing slash so relative links on the
+  // destination page (e.g. PageTitle's "..") resolve against the folder dir
+  // rather than the user root — without it, SPA navigation lands on /AI and
+  // the home link 404s. resolveRelative does not add the slash; transformLink
+  // does for content links, so we mirror that here.
+  folder?: boolean
 }
 
 // "Wiki" points at the AI folder page as a garden entry — change target if desired.
@@ -17,7 +23,7 @@ const LINKS: NavLink[] = [
   { label: "Publications", target: "index" as FullSlug, anchor: "#publications" },
   { label: "Projects", target: "index" as FullSlug, anchor: "#projects" },
   { label: "Papers", target: "papers" as FullSlug },
-  { label: "Wiki", target: "AI" as FullSlug },
+  { label: "Wiki", target: "AI" as FullSlug, folder: true },
   { label: "CV", target: "cv" as FullSlug },
 ]
 
@@ -34,7 +40,7 @@ const TopNav: QuartzComponent = (props: QuartzComponentProps) => {
           <a
             class="topnav-link"
             key={l.label}
-            href={resolveRelative(slug, l.target) + (l.anchor ?? "")}
+            href={resolveRelative(slug, l.target) + (l.folder ? "/" : "") + (l.anchor ?? "")}
           >
             {l.label}
           </a>
