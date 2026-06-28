@@ -6,18 +6,18 @@ import { pageResources, renderPage } from "../../components/renderPage"
 import { FullPageLayout } from "../../cfg"
 import { pathToRoot, FullSlug } from "../../util/path"
 import { landingLayout, sharedPageComponents } from "../../../quartz.layout"
-import { PapersDashboard as PapersDashboardComponent } from "../../components"
+import { Portfolio as PortfolioComponent } from "../../components"
 import { write } from "./helpers"
 import { defaultProcessedContent } from "../vfile"
-import { aggregate, extractPaperRecord, selectSpotlight, DashboardData } from "../../util/papers"
+import { loadPortfolio } from "../../util/portfolio"
 
-const DASHBOARD_SLUG = "papers" as FullSlug
+const LANDING_SLUG = "index" as FullSlug
 
-export const PapersDashboard: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) => {
+export const AcademicLanding: QuartzEmitterPlugin<Partial<FullPageLayout>> = (userOpts) => {
   const opts = {
     ...sharedPageComponents,
     ...landingLayout,
-    pageBody: PapersDashboardComponent(),
+    pageBody: PortfolioComponent(),
     ...userOpts,
   } as FullPageLayout
 
@@ -26,7 +26,7 @@ export const PapersDashboard: QuartzEmitterPlugin<Partial<FullPageLayout>> = (us
   const Body = BodyConstructor()
 
   return {
-    name: "PapersDashboard",
+    name: "AcademicLanding",
     getQuartzComponents() {
       return [
         Head,
@@ -44,24 +44,15 @@ export const PapersDashboard: QuartzEmitterPlugin<Partial<FullPageLayout>> = (us
     async *emit(ctx, content, resources) {
       const allFiles = content.map((c) => c[1].data)
       const cfg = ctx.cfg.configuration
-
-      const records = allFiles
-        .filter((d) => d.frontmatter?.["type"] === "paper" && d.slug)
-        .map((d) => extractPaperRecord(d.frontmatter as Record<string, unknown>, d.slug as string))
-
-      const dashboardData: DashboardData = {
-        records,
-        aggregate: aggregate(records),
-        spotlight: selectSpotlight(records),
-      }
+      const portfolioData = loadPortfolio()
 
       const [tree, vfile] = defaultProcessedContent({
-        slug: DASHBOARD_SLUG,
-        frontmatter: { title: "Research Papers", tags: [] },
+        slug: LANDING_SLUG,
+        frontmatter: { title: portfolioData.profile.name, tags: [] },
       })
-      vfile.data.papersData = dashboardData
+      vfile.data.portfolioData = portfolioData
 
-      const externalResources = pageResources(pathToRoot(DASHBOARD_SLUG), resources)
+      const externalResources = pageResources(pathToRoot(LANDING_SLUG), resources)
       const componentData: QuartzComponentProps = {
         ctx,
         fileData: vfile.data,
@@ -72,20 +63,9 @@ export const PapersDashboard: QuartzEmitterPlugin<Partial<FullPageLayout>> = (us
         allFiles,
       }
 
-      const renderedContent = renderPage(
-        cfg,
-        DASHBOARD_SLUG,
-        componentData,
-        opts,
-        externalResources,
-      )
+      const renderedContent = renderPage(cfg, LANDING_SLUG, componentData, opts, externalResources)
 
-      yield write({
-        ctx,
-        content: renderedContent,
-        slug: DASHBOARD_SLUG,
-        ext: ".html",
-      })
+      yield write({ ctx, content: renderedContent, slug: LANDING_SLUG, ext: ".html" })
     },
   }
 }

@@ -1,0 +1,20 @@
+pdf: ""
+education:
+  - {
+      period: "2021–present",
+      degree: "B.S.",
+      field: "Electrical Engineering and Computer Science",
+      org: "GIST",
+    }
+experience:
+  - {
+      period: "2026–present",
+      role: "Undergraduate Researcher",
+      org: "DS Lab, GIST",
+      url: "https://sundong.kim",
+    }
+  - {
+      period: "2025–2026",
+      role: "Undergraduate Researcher",
+      org: "Language Cognition and Brain Lab (LCBL)",
+    }

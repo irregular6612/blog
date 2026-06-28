@@ -1,0 +1,31 @@
+name: Juhyeon Park
+role: Undergraduate Researcher
+affiliation:
+  lab: { name: DS Lab, url: https://sundong.kim }
+  pi: { name: Sundong Kim, url: https://sundong.kim }
+  institution: { name: GIST, url: https://www.gist.ac.kr, country: South Korea }
+bio: >
+  My research centers on human-like AI — drawing on human traits such as a sense of
+  self and motivation to shape how AI behaves and is built. Starting from a simple
+  question — what makes us human? — I work to translate those traits into the design
+  and implementation of intelligent agents.
+about: >
+  I'm a fourth-year B.S. student at GIST and an undergraduate researcher in the DS Lab.
+  I'm broadly interested in machine learning, deep learning, and statistics, and
+  increasingly in how cognition and neuroscience can inform the design of more
+  human-like agents. Previously I worked in the Language Cognition and Brain Lab (LCBL).
+photo: ""
+interests:
+  - Human-like AI
+  - Self & Motivation
+  - Artificial Intelligence
+  - Deep Learning
+  - Statistics
+  - Reinforcement Learning
+  - Neuroscience
+contacts:
+  - { kind: email, label: juhyeon-park@gm.gist.ac.kr, href: "mailto:juhyeon-park@gm.gist.ac.kr" }
+  - { kind: email, label: Gmail, href: "mailto:irregular6612@gmail.com" }
+  - { kind: github, label: GitHub, href: "https://github.com/irregular6612" }
+  - { kind: orcid, label: ORCID, href: "", soon: true }
+  - { kind: scholar, label: Google Scholar, href: "", soon: true }

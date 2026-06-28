@@ -57,7 +57,7 @@ const PapersDashboard: QuartzComponent = ({ fileData }: QuartzComponentProps) =>
   const href = (r: PaperRecord) => resolveRelative(curSlug, r.slug as FullSlug)
 
   return (
-    <div id="papers-dashboard" class="papers-dashboard">
+    <div id="papers-dashboard" class="papers-dashboard portfolio-root">
       {/* 1. stat cards */}
       <div class="papers-stats">
         {stats.map((s) => (
@@ -173,12 +173,10 @@ const PapersDashboard: QuartzComponent = ({ fileData }: QuartzComponentProps) =>
 
 PapersDashboard.css = `
 .papers-dashboard { display: flex; flex-direction: column; gap: 1.2rem; }
+.papers-dashboard h1, #papers-dashboard { font-family: var(--bodyFont); }
 .papers-stats { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.papers-statcard {
-  border: 1px solid var(--lightgray); border-radius: 8px; padding: 0.5rem 0.9rem;
-  text-align: center; min-width: 5rem; background: var(--light);
-}
-.papers-statcard b { display: block; font-size: 1.3rem; color: var(--secondary); line-height: 1.1; }
+.papers-statcard { border: 1px solid var(--lightgray); border-radius: 11px; padding: 0.7rem 0.9rem; text-align: center; min-width: 5.5rem; background: var(--light); }
+.papers-statcard b { display: block; font-family: var(--headerFont); font-size: 1.5rem; color: var(--dark); line-height: 1.1; }
 .papers-statcard span { font-size: 0.7rem; color: var(--gray); }
 .papers-charts { display: flex; gap: 0.8rem; flex-wrap: wrap; }
 .papers-chart {
@@ -191,7 +189,7 @@ PapersDashboard.css = `
 }
 .papers-barrow { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; margin: 0.15rem 0; }
 .papers-barrow-key { width: 6.5rem; text-align: right; color: var(--darkgray); flex-shrink: 0; }
-.papers-bar { height: 0.6rem; background: var(--tertiary); border-radius: 3px; min-width: 2px; }
+.papers-bar { height: 0.55rem; background: linear-gradient(90deg, var(--tertiary), var(--secondary)); border-radius: 4px; min-width: 2px; }
 .papers-barrow-count { color: var(--gray); font-size: 0.7rem; }
 .papers-spotlight {
   border: 1px solid var(--lightgray); border-radius: 8px; padding: 0.6rem 0.8rem; background: var(--light);
@@ -200,6 +198,7 @@ PapersDashboard.css = `
 .papers-spot-card {
   display: flex; flex-direction: column; gap: 0.2rem; padding: 0.5rem;
   border: 1px solid var(--lightgray); border-radius: 6px; text-decoration: none; background: var(--light);
+  border-left: 3px solid var(--tertiary);
 }
 .papers-spot-title { font-size: 0.85rem; color: var(--secondary); }
 .papers-spot-meta { font-size: 0.7rem; color: var(--gray); }
@@ -218,7 +217,7 @@ PapersDashboard.css = `
 .papers-list { display: flex; flex-direction: column; }
 .papers-row {
   display: flex; align-items: center; gap: 0.6rem; padding: 0.35rem 0;
-  border-bottom: 1px solid var(--lightgray); font-size: 0.8rem;
+  border-bottom: 1px solid var(--lightgray); font-size: 0.8rem; border-left: 3px solid transparent;
 }
 .papers-row-title { flex: 1; color: var(--secondary); text-decoration: none; }
 .papers-row-year { color: var(--gray); width: 3rem; text-align: right; }
@@ -227,6 +226,9 @@ PapersDashboard.css = `
 .papers-arxiv { font-size: 0.7rem; color: var(--tertiary); }
 .papers-arxiv-empty { font-size: 0.7rem; color: var(--lightgray); }
 .papers-empty { color: var(--gray); font-size: 0.85rem; }
+.papers-chart { border-radius: 11px; }
+.papers-spotlight { border-radius: 11px; }
+.papers-chip.active { background: var(--secondary); color: var(--light); border-color: var(--secondary); }
 `
 
 PapersDashboard.afterDOMLoaded = script
