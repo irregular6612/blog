@@ -30,6 +30,7 @@ import Properties from "./Properties"
 import ReadingProgress from "./ReadingProgress"
 import SocialShare from "./SocialShare"
 import KeyboardShortcuts from "./KeyboardShortcuts"
+import TopNav from "./TopNav"
 
 export {
   ArticleTitle,
@@ -64,4 +65,5 @@ export {
   ReadingProgress,
   SocialShare,
   KeyboardShortcuts,
+  TopNav,
 }
