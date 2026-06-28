@@ -122,7 +122,7 @@ export function selectedPublications(pubs: Publication[]): Publication[] {
   return chosen.slice().sort((a, b) => b.year - a.year)
 }
 
-export function labBadgeClass(lab: string): string {
+export function labBadgeClass(lab: string): "lab-lcbl" | "lab-ds" | "lab-other" {
   const key = lab.trim().toLowerCase()
   if (key === "lcbl") return "lab-lcbl"
   if (key === "ds lab" || key === "dslab") return "lab-ds"
