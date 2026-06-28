@@ -140,9 +140,9 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
         )}
       </section>
 
-      {projects.length > 0 && (
-        <section id="projects" class="pf-section">
-          <h2 class="pf-label">Projects</h2>
+      <section id="projects" class="pf-section">
+        <h2 class="pf-label">Projects</h2>
+        {projects.length > 0 ? (
           <div class="pf-projects">
             {projects.map((pr, idx) => (
               <div class="pf-project" key={idx}>
@@ -152,8 +152,10 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
               </div>
             ))}
           </div>
-        </section>
-      )}
+        ) : (
+          <p class="pf-empty">No projects yet.</p>
+        )}
+      </section>
 
       <section class="pf-section">
         <h2 class="pf-label">Talks</h2>

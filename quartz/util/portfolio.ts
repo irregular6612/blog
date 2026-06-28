@@ -131,6 +131,6 @@ export function labBadgeClass(lab: string): "lab-lcbl" | "lab-ds" | "lab-other" 
 
 declare module "vfile" {
   interface DataMap {
-    portfolioData: PortfolioData
+    portfolioData?: PortfolioData
   }
 }
