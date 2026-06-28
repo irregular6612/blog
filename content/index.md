@@ -1,6 +1,7 @@
 ---
 title: Welcome
 description: Juhyeon's Tech Blog - AI, Deep Learning, Statistics
+draft: true
 ---
 
 # 👋 안녕하세요!
