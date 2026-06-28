@@ -1,4 +1,4 @@
-import { PageLayout, SharedLayout } from "./quartz/cfg"
+import { PageLayout, SharedLayout, FullPageLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 
 // components shared across all pages
@@ -99,5 +99,16 @@ export const defaultListPageLayout: PageLayout = {
     }),
     Component.Explorer(),
   ],
+  right: [],
+}
+
+// Sidebar-less layout for portfolio surfaces (landing, CV, papers dashboard).
+// Emitters spread sharedPageComponents first, then landingLayout — so header: []
+// here drops the shared ReadingProgress bar; empty left/right drop wiki sidebars.
+export const landingLayout: Partial<FullPageLayout> = {
+  header: [],
+  beforeBody: [Component.TopNav()],
+  afterBody: [],
+  left: [],
   right: [],
 }
