@@ -1,0 +1,5 @@
+- { name: "Generated Face Rating: AI vs. Human", lab: "LCBL", desc: "comparison study", url: "" }
+- { name: "KE Corpus", lab: "LCBL", desc: "corpus construction", url: "" }
+- { name: "Phonetic Convergence", lab: "LCBL", desc: "speech / cognition", url: "" }
+- { name: "LLM-Squid Game", lab: "DS Lab", desc: "LLM agent benchmark", url: "" }
+- { name: "AgentnessArena", lab: "DS Lab", desc: "agent evaluation", url: "" }
