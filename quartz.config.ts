@@ -81,7 +81,7 @@ const config: QuartzConfig = {
       Plugin.Canvas(),
       Plugin.Bases(),
     ],
-    filters: [Plugin.RemoveDrafts()],
+    filters: [Plugin.RemoveDrafts(), Plugin.RemoveIndexPage()],
     emitters: [
       Plugin.AliasRedirects(),
       Plugin.ComponentResources(),
