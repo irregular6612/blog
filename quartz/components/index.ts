@@ -32,6 +32,7 @@ import SocialShare from "./SocialShare"
 import KeyboardShortcuts from "./KeyboardShortcuts"
 import TopNav from "./TopNav"
 import Portfolio from "./pages/Portfolio"
+import CV from "./pages/CV"
 
 export {
   ArticleTitle,
@@ -68,4 +69,5 @@ export {
   KeyboardShortcuts,
   TopNav,
   Portfolio,
+  CV,
 }

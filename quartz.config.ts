@@ -90,6 +90,7 @@ const config: QuartzConfig = {
       Plugin.PapersDashboard(),
       Plugin.ContentPage(),
       Plugin.AcademicLanding(),
+      Plugin.CVPage(),
       Plugin.FolderPage(),
       Plugin.TagPage(),
       Plugin.ContentIndex({
