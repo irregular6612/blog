@@ -1,7 +1,7 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 import { resolveRelative, pathToRoot, joinSegments, FullSlug } from "../../util/path"
-import { selectedPublications } from "../../util/portfolio"
-import type { Publication } from "../../util/portfolio"
+import { publishedProjects } from "../../util/portfolio"
+import { ProjectCard } from "./Projects"
 
 function monogram(name: string): string {
   return name
@@ -13,30 +13,13 @@ function monogram(name: string): string {
     .toUpperCase()
 }
 
-function PubLinks({ p }: { p: Publication }) {
-  const items: { label: string; href: string }[] = []
-  if (p.links?.pdf) items.push({ label: "PDF", href: p.links.pdf })
-  if (p.links?.code) items.push({ label: "Code", href: p.links.code })
-  if (p.links?.doi) items.push({ label: "DOI", href: p.links.doi })
-  if (items.length === 0) return null
-  return (
-    <span class="pf-pub-links">
-      {items.map((i) => (
-        <a href={i.href} key={i.label} target="_blank" rel="noopener noreferrer">
-          {i.label}
-        </a>
-      ))}
-    </span>
-  )
-}
-
 const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const data = fileData.portfolioData
   if (!data) return <p>No portfolio data.</p>
-  const { profile, news, publications } = data
+  const { profile, news } = data
   const slug = fileData.slug!
   const aff = profile.affiliation
-  const pubs = selectedPublications(publications)
+  const pubs = publishedProjects(data.projects)
   const papersHref = resolveRelative(slug, "papers" as FullSlug)
   const publicationsHref = resolveRelative(slug, "publications" as FullSlug)
   const talksHref = resolveRelative(slug, "talks" as FullSlug)
@@ -136,22 +119,16 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
       <section id="publications" class="pf-section">
         <div class="pf-label-row">
           <h2 class="pf-label">Selected Publications</h2>
-          {publications.length > 0 && (
+          {pubs.length > 0 && (
             <a class="pf-seeall" href={publicationsHref}>
               All publications →
             </a>
           )}
         </div>
         {pubs.length > 0 ? (
-          <div class="pf-pubs">
-            {pubs.map((p, idx) => (
-              <div class="pf-pub" key={idx}>
-                <span class="pf-pub-year">{p.year}</span>
-                <span class="pf-pub-main">
-                  <b>{p.title}</b>. {p.authors}. <i>{p.venue}</i>.
-                </span>
-                <PubLinks p={p} />
-              </div>
+          <div class="pf-projects">
+            {pubs.map((pr, idx) => (
+              <ProjectCard pr={pr} key={idx} />
             ))}
           </div>
         ) : (

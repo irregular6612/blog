@@ -2,7 +2,7 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { labBadgeClass, projectsByYear } from "../../util/portfolio"
 import type { Project } from "../../util/portfolio"
 
-function ProjectCard({ pr }: { pr: Project }) {
+export function ProjectCard({ pr }: { pr: Project }) {
   return (
     <div class="pf-project">
       <div class="pf-project-head">

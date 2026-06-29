@@ -94,6 +94,7 @@
   year: 2026
   authors: "Juhyeon Park, Seungpil Lee, Sundong Kim"
   venue: "KDD '26 Undergraduate Consortium"
+  published: true
   paper: ""
   abstractEn: >
     We borrow psychology's multi-channel construct measurement to identify motivational constructs

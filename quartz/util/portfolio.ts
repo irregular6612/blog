@@ -61,6 +61,8 @@ export interface Project {
   paper?: string
   abstractKo?: string
   abstractEn?: string
+  // When true, the project is also surfaced on the Publications page/teaser.
+  published?: boolean
 }
 
 export interface Talk {
@@ -143,6 +145,12 @@ export function projectsByYear(projects: Project[]): { year: number; items: Proj
     groups.set(y, arr)
   }
   return [...groups.entries()].sort((a, b) => b[0] - a[0]).map(([year, items]) => ({ year, items }))
+}
+
+// Projects flagged published, newest year first — these are surfaced on the
+// Publications page and the landing's publications teaser.
+export function publishedProjects(projects: Project[]): Project[] {
+  return projects.filter((p) => p.published).sort((a, b) => (b.year ?? 0) - (a.year ?? 0))
 }
 
 export function labBadgeClass(lab: string): "lab-lcbl" | "lab-ds" | "lab-other" {
