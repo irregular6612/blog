@@ -4,6 +4,6 @@
   }
 - {
     date: 2025,
-    html: "Joined the LCBL (Language Cognition and Brain Lab) at GIST as an undergraduate researcher.",
+    html: "Joined the <a href='https://lcbl.gist.ac.kr/lcbl/index.do'>LCBL</a> (<a href='http://ccle.gist.ac.kr'>Language Cognition and Brain Lab</a>) at GIST as an undergraduate researcher.",
   }
 - { date: 2021, html: "Entered GIST as an undergraduate student." }
