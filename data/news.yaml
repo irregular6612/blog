@@ -2,4 +2,7 @@
     date: 2026,
     html: "Joined the <a href='https://sundong.kim'>DS Lab</a> at GIST as an undergraduate researcher.",
   }
-- { date: 2025, html: "Worked in the Language Cognition and Brain Lab (LCBL)." }
+- {
+    date: 2025,
+    html: "Joined the LCBL (Language Cognition and Brain Lab) at GIST as an undergraduate researcher.",
+  }

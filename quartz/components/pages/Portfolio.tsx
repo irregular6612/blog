@@ -13,6 +13,63 @@ function monogram(name: string): string {
     .toUpperCase()
 }
 
+// Inline SVG icon per contact kind (16×16, inherits color via currentColor).
+function ContactIcon({ kind }: { kind: string }) {
+  switch (kind) {
+    case "email":
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="m3 7 9 6 9-6" />
+        </svg>
+      )
+    case "github":
+      return (
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.2.8-.5v-1.8c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.3c0 .3.2.6.8.5 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z" />
+        </svg>
+      )
+    case "orcid":
+      return (
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM9.1 7.4a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm.9 9.6H8.1V9.3H10v7.7zm6.3 0h-3.4V9.3h3.2c2.3 0 3.6 1.6 3.6 3.8 0 2.4-1.6 3.9-3.4 3.9zm-.2-6.1h-1.3v4.5h1.3c1.4 0 2.3-.9 2.3-2.3 0-1.5-.8-2.2-2.3-2.2z" />
+        </svg>
+      )
+    case "scholar":
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M12 4 2 9l10 5 10-5-10-5z" />
+          <path d="M6 11.5V16c0 1.1 2.7 2.8 6 2.8s6-1.7 6-2.8v-4.5" />
+        </svg>
+      )
+    default:
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1" />
+          <path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1" />
+        </svg>
+      )
+  }
+}
+
 const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const data = fileData.portfolioData
   if (!data) return <p>No portfolio data.</p>
@@ -64,26 +121,33 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
             )}
           </p>
           <p class="pf-bio">{profile.bio}</p>
-          <div class="pf-contacts">
-            {profile.contacts.map((c) =>
-              c.soon || !c.href ? (
-                <span class="pf-contact pf-soon" key={c.label}>
-                  {c.label} — soon
-                </span>
-              ) : (
-                <a
-                  class="pf-contact"
-                  key={c.label}
-                  href={c.href}
-                  target={c.href.startsWith("http") ? "_blank" : undefined}
-                  rel="noopener noreferrer"
-                >
-                  {c.label}
-                </a>
-              ),
-            )}
-          </div>
         </div>
+        {profile.contacts.length > 0 && (
+          <aside class="pf-contactcard">
+            <h2 class="pf-label">Contact</h2>
+            <div class="pf-contactlist">
+              {profile.contacts.map((c) =>
+                c.soon || !c.href ? (
+                  <span class="pf-contactrow pf-soon" key={c.label}>
+                    <ContactIcon kind={c.kind} />
+                    <span>{c.label} — soon</span>
+                  </span>
+                ) : (
+                  <a
+                    class="pf-contactrow"
+                    key={c.label}
+                    href={c.href}
+                    target={c.href.startsWith("http") ? "_blank" : undefined}
+                    rel="noopener noreferrer"
+                  >
+                    <ContactIcon kind={c.kind} />
+                    <span>{c.label}</span>
+                  </a>
+                ),
+              )}
+            </div>
+          </aside>
+        )}
       </section>
 
       <section id="about" class="pf-section">
@@ -173,10 +237,16 @@ Portfolio.css = `
 .pf-name { font-family: var(--headerFont); font-weight: 500; font-size: 2.4rem; color: var(--dark); margin: 0 0 0.2rem; }
 .pf-role { font-size: 1.1rem; color: var(--secondary); font-weight: 600; margin: 0 0 0.15rem; }
 .pf-affil { font-size: 0.98rem; color: var(--gray); margin: 0 0 0.7rem; }
-.pf-bio { font-size: 1.08rem; line-height: 1.6; margin: 0.3rem 0 0.9rem; }
-.pf-contacts { display: flex; gap: 0.55rem; flex-wrap: wrap; }
-.pf-contact { font-size: 0.86rem; padding: 0.32rem 0.75rem; border-radius: 999px; background: var(--highlight); color: var(--secondary); border: 1px solid var(--lightgray); text-decoration: none; }
+.pf-bio { font-size: 1.08rem; line-height: 1.6; margin: 0.3rem 0 0; }
+.pf-hero-main { flex: 1; min-width: 0; }
+.pf-contactcard { flex: 0 0 auto; min-width: 12rem; max-width: 16rem; align-self: stretch; border-left: 1px solid var(--lightgray); padding-left: 1.5rem; }
+.pf-contactlist { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.7rem; }
+.pf-contactrow { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.9rem; color: var(--secondary); text-decoration: none; }
+.pf-contactrow svg { width: 17px; height: 17px; flex: 0 0 auto; color: var(--gray); }
+.pf-contactrow:hover { color: var(--dark); }
+.pf-contactrow:hover svg { color: var(--secondary); }
 .pf-soon { color: var(--gray); }
+.pf-soon svg { opacity: 0.7; }
 .pf-section { padding-top: 1.3rem; margin-top: 1.3rem; border-top: 1px solid var(--lightgray); }
 .pf-label { font-family: var(--bodyFont); font-size: 0.76rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--gray); font-weight: 600; margin: 0 0 0.7rem; }
 .pf-text { font-size: 1.06rem; line-height: 1.65; margin: 0; }
@@ -230,6 +300,8 @@ Portfolio.css = `
 @media all and (max-width: 600px) {
   .pf-hero { flex-direction: column; gap: 1rem; }
   .pf-explore { grid-template-columns: 1fr; }
+  .pf-contactcard { max-width: none; width: 100%; border-left: none; border-top: 1px solid var(--lightgray); padding-left: 0; padding-top: 1rem; }
+  .pf-contactlist { flex-flow: row wrap; gap: 0.4rem 1.1rem; }
 }
 `
 

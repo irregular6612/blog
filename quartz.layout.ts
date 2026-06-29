@@ -9,7 +9,6 @@ export const sharedPageComponents: SharedLayout = {
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/irregular6612",
-      Blog: "https://irregular6612.github.io/blog",
     },
   }),
 }
@@ -111,4 +110,6 @@ export const landingLayout: Partial<FullPageLayout> = {
   afterBody: [],
   left: [],
   right: [],
+  // Portfolio surfaces drop the footer entirely (no Quartz credit / Blog link).
+  footer: Component.Footer({ links: {} }),
 }
