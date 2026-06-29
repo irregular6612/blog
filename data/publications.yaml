@@ -1,1 +1,5 @@
-[]
+- year: 2026
+  title: "LLM Squid Game: A Factorial Benchmark for Measuring Functional Self-Preservation Drive in Large Language Models"
+  authors: "Juhyeon Park, Seungpil Lee, Sundong Kim"
+  venue: "KDD '26 Undergraduate Consortium"
+  selected: true

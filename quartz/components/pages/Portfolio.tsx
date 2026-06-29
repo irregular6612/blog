@@ -33,11 +33,14 @@ function PubLinks({ p }: { p: Publication }) {
 const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const data = fileData.portfolioData
   if (!data) return <p>No portfolio data.</p>
-  const { profile, news, publications, talks, awards } = data
+  const { profile, news, publications } = data
   const slug = fileData.slug!
   const aff = profile.affiliation
   const pubs = selectedPublications(publications)
   const papersHref = resolveRelative(slug, "papers" as FullSlug)
+  const publicationsHref = resolveRelative(slug, "publications" as FullSlug)
+  const talksHref = resolveRelative(slug, "talks" as FullSlug)
+  const awardsHref = resolveRelative(slug, "awards" as FullSlug)
   // Trailing slash: "AI" is a folder index. Without it, relative links on the
   // destination (e.g. PageTitle's "..") resolve against the user root and 404.
   const wikiHref = resolveRelative(slug, "AI" as FullSlug) + "/"
@@ -131,7 +134,14 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
       )}
 
       <section id="publications" class="pf-section">
-        <h2 class="pf-label">Selected Publications</h2>
+        <div class="pf-label-row">
+          <h2 class="pf-label">Selected Publications</h2>
+          {publications.length > 0 && (
+            <a class="pf-seeall" href={publicationsHref}>
+              All publications →
+            </a>
+          )}
+        </div>
         {pubs.length > 0 ? (
           <div class="pf-pubs">
             {pubs.map((p, idx) => (
@@ -150,54 +160,20 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
       </section>
 
       <section class="pf-section">
-        <h2 class="pf-label">Talks</h2>
-        {talks.length > 0 ? (
-          <div class="pf-news">
-            {talks.map((t, idx) => (
-              <div class="pf-news-row" key={idx}>
-                <span class="pf-news-date">{t.date ?? ""}</span>
-                <span class="pf-news-text">
-                  {t.title}
-                  {t.event ? `, ${t.event}` : ""}
-                  {t.slides ? (
-                    <>
-                      {" "}
-                      <a href={t.slides} target="_blank" rel="noopener noreferrer">
-                        slides
-                      </a>
-                    </>
-                  ) : null}
-                </span>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p class="pf-empty">No talks yet.</p>
-        )}
-      </section>
-
-      <section class="pf-section">
-        <h2 class="pf-label">Awards</h2>
-        {awards.length > 0 ? (
-          <div class="pf-news">
-            {awards.map((a, idx) => (
-              <div class="pf-news-row" key={idx}>
-                <span class="pf-news-date">{a.year ?? ""}</span>
-                <span class="pf-news-text">
-                  {a.title}
-                  {a.org ? `, ${a.org}` : ""}
-                </span>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p class="pf-empty">No awards yet.</p>
-        )}
-      </section>
-
-      <section class="pf-section">
         <h2 class="pf-label">Explore</h2>
         <div class="pf-explore">
+          <a class="pf-card" href={publicationsHref}>
+            <h3>📄 Publications →</h3>
+            <p>The full list of publications, including consortium and workshop papers.</p>
+          </a>
+          <a class="pf-card" href={talksHref}>
+            <h3>🎤 Talks →</h3>
+            <p>Invited talks, conference presentations, and seminar slides.</p>
+          </a>
+          <a class="pf-card" href={awardsHref}>
+            <h3>🏆 Awards →</h3>
+            <p>Honors, scholarships, and competition results.</p>
+          </a>
           <a class="pf-card" href={papersHref}>
             <h3>📚 Research Papers →</h3>
             <p>An interactive dashboard of paper reviews — searchable and filterable.</p>
@@ -267,7 +243,10 @@ Portfolio.css = `
 .pf-badge.lab-ds { background: var(--highlight); color: var(--secondary); border: 1px solid var(--lightgray); }
 .pf-badge.lab-other { background: var(--lightgray); color: var(--darkgray); }
 .pf-empty { font-size: 0.95rem; color: var(--gray); font-style: italic; }
-.pf-explore { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.pf-label-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.pf-seeall { font-size: 0.84rem; color: var(--secondary); text-decoration: none; white-space: nowrap; }
+.pf-seeall:hover { text-decoration: underline; }
+.pf-explore { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0.9rem; }
 .pf-card { border: 1px solid var(--lightgray); border-radius: 11px; padding: 1rem 1.1rem; text-decoration: none; }
 .pf-card h3 { font-family: var(--headerFont); font-weight: 600; color: var(--dark); font-size: 1.12rem; margin: 0 0 0.3rem; }
 .pf-card p { margin: 0; font-size: 0.92rem; color: var(--gray); line-height: 1.5; }

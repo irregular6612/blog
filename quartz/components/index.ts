@@ -35,6 +35,9 @@ import TopNav from "./TopNav"
 import Portfolio from "./pages/Portfolio"
 import CV from "./pages/CV"
 import Projects from "./pages/Projects"
+import Publications from "./pages/Publications"
+import Talks from "./pages/Talks"
+import Awards from "./pages/Awards"
 
 export {
   ArticleTitle,
@@ -74,4 +77,7 @@ export {
   Portfolio,
   CV,
   Projects,
+  Publications,
+  Talks,
+  Awards,
 }

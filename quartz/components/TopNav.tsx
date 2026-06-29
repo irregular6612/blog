@@ -20,7 +20,9 @@ interface NavLink {
 // "Wiki" points at the AI folder page as a garden entry — change target if desired.
 const LINKS: NavLink[] = [
   { label: "About", target: "index" as FullSlug, anchor: "#about" },
-  { label: "Publications", target: "index" as FullSlug, anchor: "#publications" },
+  { label: "Publications", target: "publications" as FullSlug },
+  { label: "Talks", target: "talks" as FullSlug },
+  { label: "Awards", target: "awards" as FullSlug },
   { label: "Projects", target: "projects" as FullSlug },
   { label: "Papers", target: "papers" as FullSlug },
   { label: "Concepts", target: "concepts" as FullSlug },
