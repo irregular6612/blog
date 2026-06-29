@@ -53,13 +53,11 @@ export interface Project {
   url?: string
   authors?: string
   venue?: string
+  year?: number
   // Paper/PDF link. Empty or absent → the button renders disabled (placeholder).
   paper?: string
   abstractKo?: string
   abstractEn?: string
-  // When true, the KO/EN abstract is shown inline as an always-visible
-  // description instead of behind the collapsible "Abstract" toggle.
-  descAbstract?: boolean
 }
 
 export interface Talk {
@@ -129,6 +127,19 @@ export function selectedPublications(pubs: Publication[]): Publication[] {
   const sel = pubs.filter((p) => p.selected)
   const chosen = sel.length > 0 ? sel : pubs
   return chosen.slice().sort((a, b) => b.year - a.year)
+}
+
+// Group projects by year, newest year first. Items keep their original order
+// within each year. Projects without a year fall into a 0 bucket shown last.
+export function projectsByYear(projects: Project[]): { year: number; items: Project[] }[] {
+  const groups = new Map<number, Project[]>()
+  for (const p of projects) {
+    const y = p.year ?? 0
+    const arr = groups.get(y) ?? []
+    arr.push(p)
+    groups.set(y, arr)
+  }
+  return [...groups.entries()].sort((a, b) => b[0] - a[0]).map(([year, items]) => ({ year, items }))
 }
 
 export function labBadgeClass(lab: string): "lab-lcbl" | "lab-ds" | "lab-other" {

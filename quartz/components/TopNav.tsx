@@ -21,7 +21,7 @@ interface NavLink {
 const LINKS: NavLink[] = [
   { label: "About", target: "index" as FullSlug, anchor: "#about" },
   { label: "Publications", target: "index" as FullSlug, anchor: "#publications" },
-  { label: "Projects", target: "index" as FullSlug, anchor: "#projects" },
+  { label: "Projects", target: "projects" as FullSlug },
   { label: "Papers", target: "papers" as FullSlug },
   { label: "Wiki", target: "AI" as FullSlug, folder: true },
   { label: "CV", target: "cv" as FullSlug },

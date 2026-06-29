@@ -33,6 +33,7 @@ import KeyboardShortcuts from "./KeyboardShortcuts"
 import TopNav from "./TopNav"
 import Portfolio from "./pages/Portfolio"
 import CV from "./pages/CV"
+import Projects from "./pages/Projects"
 
 export {
   ArticleTitle,
@@ -70,4 +71,5 @@ export {
   TopNav,
   Portfolio,
   CV,
+  Projects,
 }

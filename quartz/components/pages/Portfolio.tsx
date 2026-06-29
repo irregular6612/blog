@@ -1,6 +1,6 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 import { resolveRelative, FullSlug } from "../../util/path"
-import { selectedPublications, labBadgeClass } from "../../util/portfolio"
+import { selectedPublications } from "../../util/portfolio"
 import type { Publication } from "../../util/portfolio"
 
 function monogram(name: string): string {
@@ -33,7 +33,7 @@ function PubLinks({ p }: { p: Publication }) {
 const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const data = fileData.portfolioData
   if (!data) return <p>No portfolio data.</p>
-  const { profile, news, publications, projects, talks, awards } = data
+  const { profile, news, publications, talks, awards } = data
   const slug = fileData.slug!
   const aff = profile.affiliation
   const pubs = selectedPublications(publications)
@@ -139,73 +139,6 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
           </div>
         ) : (
           <p class="pf-empty">Publications will appear here soon.</p>
-        )}
-      </section>
-
-      <section id="projects" class="pf-section">
-        <h2 class="pf-label">Projects</h2>
-        {projects.length > 0 ? (
-          <div class="pf-projects">
-            {projects.map((pr, idx) => (
-              <div class="pf-project" key={idx}>
-                <div class="pf-project-head">
-                  <span class="pf-project-name">{pr.name}</span>
-                  <span class={`pf-badge ${labBadgeClass(pr.lab)}`}>{pr.lab}</span>
-                </div>
-                {pr.authors && <p class="pf-project-authors">{pr.authors}</p>}
-                {pr.venue && <p class="pf-project-venue">{pr.venue}</p>}
-                {pr.desc && <p class="pf-project-desc">{pr.desc}</p>}
-                {(pr.abstractKo || pr.abstractEn) && pr.descAbstract && (
-                  <div class="pf-abstract-body pf-abstract-inline">
-                    {pr.abstractKo && (
-                      <div class="pf-abstract-block">
-                        <span class="pf-abstract-lang">한국어</span>
-                        <p>{pr.abstractKo}</p>
-                      </div>
-                    )}
-                    {pr.abstractEn && (
-                      <div class="pf-abstract-block">
-                        <span class="pf-abstract-lang">English</span>
-                        <p>{pr.abstractEn}</p>
-                      </div>
-                    )}
-                  </div>
-                )}
-                <div class="pf-project-actions">
-                  {(pr.abstractKo || pr.abstractEn) && !pr.descAbstract && (
-                    <details class="pf-abstract">
-                      <summary class="pf-btn">Abstract</summary>
-                      <div class="pf-abstract-body">
-                        {pr.abstractKo && (
-                          <div class="pf-abstract-block">
-                            <span class="pf-abstract-lang">한국어</span>
-                            <p>{pr.abstractKo}</p>
-                          </div>
-                        )}
-                        {pr.abstractEn && (
-                          <div class="pf-abstract-block">
-                            <span class="pf-abstract-lang">English</span>
-                            <p>{pr.abstractEn}</p>
-                          </div>
-                        )}
-                      </div>
-                    </details>
-                  )}
-                  {pr.paper ? (
-                    <a class="pf-btn" href={pr.paper} target="_blank" rel="noopener noreferrer">
-                      PDF
-                    </a>
-                  ) : (
-                    <span class="pf-btn pf-btn-disabled" aria-disabled="true" title="Coming soon">
-                      PDF
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p class="pf-empty">No projects yet.</p>
         )}
       </section>
 

@@ -3,8 +3,8 @@ import assert from "node:assert/strict"
 import fs from "fs"
 import os from "os"
 import path from "path"
-import { loadPortfolio, selectedPublications, labBadgeClass } from "./portfolio"
-import type { Publication } from "./portfolio"
+import { loadPortfolio, selectedPublications, labBadgeClass, projectsByYear } from "./portfolio"
+import type { Publication, Project } from "./portfolio"
 
 function fixtureDir(files: Record<string, string>): string {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "portfolio-"))
@@ -79,5 +79,28 @@ describe("labBadgeClass", () => {
   })
   test("unknown lab gets neutral badge", () => {
     assert.equal(labBadgeClass("Other Lab"), "lab-other")
+  })
+})
+
+describe("projectsByYear", () => {
+  const projects: Project[] = [
+    { name: "A", lab: "LCBL", year: 2025 },
+    { name: "B", lab: "DS Lab", year: 2026 },
+    { name: "C", lab: "LCBL", year: 2025 },
+  ]
+  test("groups by year, newest first, preserving order within a year", () => {
+    const groups = projectsByYear(projects)
+    assert.deepEqual(
+      groups.map((g) => g.year),
+      [2026, 2025],
+    )
+    assert.deepEqual(
+      groups[1].items.map((p) => p.name),
+      ["A", "C"],
+    )
+  })
+  test("projects without a year fall into the 0 bucket shown last", () => {
+    const groups = projectsByYear([{ name: "X", lab: "DS Lab" }, ...projects])
+    assert.equal(groups[groups.length - 1].year, 0)
   })
 })

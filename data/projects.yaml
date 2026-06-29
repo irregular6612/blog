@@ -1,5 +1,6 @@
 - name: "AI Generated Face Rating: AI vs Human"
   lab: LCBL
+  year: 2025
   authors: "Jini Tae, Juhyeon Park, Wonil Choi"
   paper: ""
   abstractEn: >
@@ -28,6 +29,7 @@
 
 - name: "Korean English Corpus"
   lab: LCBL
+  year: 2025
   authors: "Hyeonah Baek, Juhyeon Park, Wonil Choi"
   paper: ""
   abstractKo: >
@@ -68,8 +70,8 @@
 
 - name: "Phonetic Convergence"
   lab: LCBL
+  year: 2025
   paper: ""
-  descAbstract: true
   abstractKo: >
     사람은 대화 도중 무심코 F0와 같은 상대방의 음성 특질을 닮아간다. 이렇게 닮아가는 속도는
     상대방에 대한 호감도나 관계성 등에 따라 달라지는데, 이러한 현상을 음성 수렴(phonetic
@@ -89,6 +91,7 @@
 
 - name: "LLM Squid Game: A Factorial Benchmark for Measuring Functional Self-Preservation Drive in Large Language Models"
   lab: DS Lab
+  year: 2026
   authors: "Juhyeon Park, Seungpil Lee, Sundong Kim"
   venue: "KDD '26 Undergraduate Consortium"
   paper: ""
@@ -115,5 +118,6 @@
 
 - name: "AgentnessArena"
   lab: DS Lab
+  year: 2026
   desc: "agent evaluation"
   paper: ""
