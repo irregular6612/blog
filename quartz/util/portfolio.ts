@@ -57,6 +57,9 @@ export interface Project {
   paper?: string
   abstractKo?: string
   abstractEn?: string
+  // When true, the KO/EN abstract is shown inline as an always-visible
+  // description instead of behind the collapsible "Abstract" toggle.
+  descAbstract?: boolean
 }
 
 export interface Talk {

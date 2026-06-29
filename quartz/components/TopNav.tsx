@@ -78,7 +78,7 @@ TopNav.css = concatenateResources(
     "grid-footer" !important;
 }
 #quartz-body:has(.portfolio-root) .center {
-  max-width: 920px; width: 100%; margin: 0 auto;
+  max-width: 1080px; width: 100%; margin: 0 auto;
 }
 /* renderPage always emits empty .left/.right sidebar wrappers — hide them here */
 #quartz-body:has(.portfolio-root) .sidebar { display: none !important; }

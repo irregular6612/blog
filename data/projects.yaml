@@ -39,7 +39,13 @@
     연구 자극을 활용해 그 빈도 추정치를 검증하여 코퍼스 규모 예측과 부합하는 중간 수준의
     저빈도 신뢰도를 확인하였다 (Brysbaert and New, 2009). 연구 2에서는 한국 대학생 74명이
     111개 표적 단어에 대한 어휘판단과제(LDT)를 수행하였다. 결합 선형 혼합효과모형(R lme4)에서
-    KE Zipf 빈도는 반응시간의 더 강한 예측변인이었다 (β = −0.023, t = …).
+    KE Zipf 빈도는 반응시간의 더 강한 예측변인이었고 (β = −0.023, t = −4.48, p < .001; SD당
+    −29.7 ms; ∆AIC = 40.5), SUBTLEX-US 빈도는 유의하지 않았다 (β = −0.004, p = .463). 습득연령
+    (AoA)을 통제하면 SUBTLEX-US 효과는 사라진 반면(p = .870) KE 효과는 견고하게 유지되었으며
+    (p < .001), 이 결과는 8개의 민감도 모형과 교차검증에서도 안정적이었다. 이 결과들은 교육
+    입력과 정합하는 빈도 규준이 L2 어휘 처리 예측을 향상시킨다는 점을 시사한다. 다만 그 이점이
+    L2 특수적 노출 때문인지, 텍스트 기반 규준이 자막 기반 규준보다 일반적으로 우월하기
+    때문인지는 추가 검증이 필요하다.
   abstractEn: >
     Vocabulary frequency norms used in second-language (L2) research are typically derived from
     native-speaker corpora and thus mismatch the input that learners actually receive. This study
@@ -51,11 +57,19 @@
     reliability consistent with corpus-size predictions (Brysbaert and New, 2009). Study 2 had 74
     Korean university students perform a lexical decision task (LDT) on 111 target words. In a
     combined linear mixed-effects model (R lme4), KE Zipf frequency was a stronger predictor of
-    reaction time (β = −0.023, t = …).
+    reaction time (β = −0.023, t = −4.48, p < .001; −29.7 ms per SD; ∆AIC = 40.5), whereas
+    SUBTLEX-US frequency was not significant (β = −0.004, p = .463). Controlling for age of
+    acquisition (AoA), the SUBTLEX-US effect disappeared (p = .870) while the KE effect remained
+    robust (p < .001), and this pattern was stable across eight sensitivity models and
+    cross-validation. These results suggest that frequency norms aligned with educational input
+    improve the prediction of L2 lexical processing. However, whether this advantage stems from
+    L2-specific exposure or from a general superiority of text-based norms over subtitle-based
+    norms requires further validation.
 
 - name: "Phonetic Convergence"
   lab: LCBL
   paper: ""
+  descAbstract: true
   abstractKo: >
     사람은 대화 도중 무심코 F0와 같은 상대방의 음성 특질을 닮아간다. 이렇게 닮아가는 속도는
     상대방에 대한 호감도나 관계성 등에 따라 달라지는데, 이러한 현상을 음성 수렴(phonetic
