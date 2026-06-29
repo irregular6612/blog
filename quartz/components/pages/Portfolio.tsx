@@ -1,5 +1,5 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
-import { resolveRelative, FullSlug } from "../../util/path"
+import { resolveRelative, pathToRoot, joinSegments, FullSlug } from "../../util/path"
 import { selectedPublications } from "../../util/portfolio"
 import type { Publication } from "../../util/portfolio"
 
@@ -41,12 +41,19 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   // Trailing slash: "AI" is a folder index. Without it, relative links on the
   // destination (e.g. PageTitle's "..") resolve against the user root and 404.
   const wikiHref = resolveRelative(slug, "AI" as FullSlug) + "/"
+  // The photo lives in quartz/static (served at <root>/static/...). Resolve it
+  // against the page root so it survives the GitHub Pages "/blog" baseUrl; pass
+  // absolute URLs through untouched.
+  const photoSrc =
+    profile.photo && !/^https?:\/\//.test(profile.photo)
+      ? joinSegments(pathToRoot(slug), profile.photo)
+      : profile.photo
 
   return (
     <div class="portfolio-root">
       <section class="pf-hero">
-        {profile.photo ? (
-          <img class="pf-photo" src={profile.photo} alt={profile.name} />
+        {photoSrc ? (
+          <img class="pf-photo" src={photoSrc} alt={profile.name} />
         ) : (
           <div class="pf-photo pf-monogram">{monogram(profile.name)}</div>
         )}
