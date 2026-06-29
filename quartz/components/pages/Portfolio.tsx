@@ -148,9 +148,43 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
           <div class="pf-projects">
             {projects.map((pr, idx) => (
               <div class="pf-project" key={idx}>
-                <span class="pf-project-name">{pr.name}</span>
-                {pr.desc && <span class="pf-project-desc">{pr.desc}</span>}
-                <span class={`pf-badge ${labBadgeClass(pr.lab)}`}>{pr.lab}</span>
+                <div class="pf-project-head">
+                  <span class="pf-project-name">{pr.name}</span>
+                  <span class={`pf-badge ${labBadgeClass(pr.lab)}`}>{pr.lab}</span>
+                </div>
+                {pr.authors && <p class="pf-project-authors">{pr.authors}</p>}
+                {pr.venue && <p class="pf-project-venue">{pr.venue}</p>}
+                {pr.desc && <p class="pf-project-desc">{pr.desc}</p>}
+                <div class="pf-project-actions">
+                  {(pr.abstractKo || pr.abstractEn) && (
+                    <details class="pf-abstract">
+                      <summary class="pf-btn">Abstract</summary>
+                      <div class="pf-abstract-body">
+                        {pr.abstractKo && (
+                          <div class="pf-abstract-block">
+                            <span class="pf-abstract-lang">한국어</span>
+                            <p>{pr.abstractKo}</p>
+                          </div>
+                        )}
+                        {pr.abstractEn && (
+                          <div class="pf-abstract-block">
+                            <span class="pf-abstract-lang">English</span>
+                            <p>{pr.abstractEn}</p>
+                          </div>
+                        )}
+                      </div>
+                    </details>
+                  )}
+                  {pr.paper ? (
+                    <a class="pf-btn" href={pr.paper} target="_blank" rel="noopener noreferrer">
+                      PDF
+                    </a>
+                  ) : (
+                    <span class="pf-btn pf-btn-disabled" aria-disabled="true" title="Coming soon">
+                      PDF
+                    </span>
+                  )}
+                </div>
               </div>
             ))}
           </div>
@@ -225,8 +259,8 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
 Portfolio.css = `
 .portfolio-root { display: flex; flex-direction: column; }
 .pf-hero { display: flex; gap: 1.8rem; align-items: flex-start; margin: 1rem 0 0.5rem; }
-.pf-photo { width: 120px; height: 120px; border-radius: 16px; flex: 0 0 auto; object-fit: cover; }
-.pf-monogram { background: var(--dark); color: var(--light); display: flex; align-items: center; justify-content: center; font-family: var(--headerFont); font-size: 2.6rem; }
+.pf-photo { width: 168px; height: 168px; border-radius: 16px; flex: 0 0 auto; object-fit: cover; align-self: stretch; min-height: 168px; }
+.pf-monogram { background: var(--dark); color: var(--light); display: flex; align-items: center; justify-content: center; font-family: var(--headerFont); font-size: 3.4rem; }
 .pf-name { font-family: var(--headerFont); font-weight: 500; font-size: 2.2rem; color: var(--dark); margin: 0 0 0.2rem; }
 .pf-role { font-size: 1rem; color: var(--secondary); font-weight: 600; margin: 0 0 0.15rem; }
 .pf-affil { font-size: 0.9rem; color: var(--gray); margin: 0 0 0.7rem; }
@@ -249,10 +283,28 @@ Portfolio.css = `
 .pf-pub-main { flex: 1; }
 .pf-pub-links { white-space: nowrap; display: flex; gap: 0.5rem; }
 .pf-pub-links a { font-size: 0.8rem; color: var(--secondary); }
-.pf-projects { display: flex; flex-direction: column; gap: 0.55rem; }
-.pf-project { display: flex; align-items: baseline; gap: 0.7rem; padding: 0.55rem 0.85rem; border: 1px solid var(--lightgray); border-radius: 9px; }
-.pf-project-name { font-weight: 600; color: var(--dark); font-size: 0.95rem; }
-.pf-project-desc { font-size: 0.84rem; color: var(--gray); }
+.pf-projects { display: flex; flex-direction: column; gap: 0.6rem; }
+.pf-project { display: flex; flex-direction: column; gap: 0.3rem; padding: 0.7rem 0.9rem; border: 1px solid var(--lightgray); border-radius: 9px; }
+.pf-project-head { display: flex; align-items: baseline; gap: 0.7rem; }
+.pf-project-name { font-weight: 600; color: var(--dark); font-size: 0.95rem; line-height: 1.4; }
+.pf-project-authors { font-size: 0.82rem; color: var(--darkgray); margin: 0; }
+.pf-project-venue { font-size: 0.78rem; color: var(--secondary); font-style: italic; margin: 0; }
+.pf-project-desc { font-size: 0.84rem; color: var(--gray); margin: 0; }
+.pf-project-actions { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: flex-start; margin-top: 0.15rem; }
+.pf-btn { font-size: 0.76rem; padding: 0.25rem 0.7rem; border-radius: 7px; border: 1px solid var(--lightgray); background: var(--highlight); color: var(--secondary); text-decoration: none; cursor: pointer; display: inline-block; }
+.pf-btn:hover { border-color: var(--secondary); }
+.pf-btn-disabled { opacity: 0.55; cursor: not-allowed; color: var(--gray); background: transparent; }
+.pf-btn-disabled:hover { border-color: var(--lightgray); }
+.pf-abstract { flex: 0 0 auto; }
+.pf-abstract[open] { flex: 1 1 100%; }
+.pf-abstract summary { list-style: none; }
+.pf-abstract summary::-webkit-details-marker { display: none; }
+.pf-abstract summary::marker { content: ""; }
+.pf-abstract[open] > summary { background: var(--secondary); color: var(--light); border-color: var(--secondary); }
+.pf-abstract-body { margin-top: 0.55rem; }
+.pf-abstract-block + .pf-abstract-block { margin-top: 0.6rem; }
+.pf-abstract-lang { display: inline-block; font-size: 0.66rem; letter-spacing: 0.11em; text-transform: uppercase; color: var(--gray); font-weight: 600; margin-bottom: 0.2rem; }
+.pf-abstract-block p { margin: 0; font-size: 0.85rem; line-height: 1.55; max-width: 70ch; }
 .pf-badge { margin-left: auto; font-size: 0.7rem; padding: 0.18rem 0.55rem; border-radius: 999px; font-weight: 600; white-space: nowrap; }
 .pf-badge.lab-lcbl { background: #eaf3ee; color: #2e6b4d; border: 1px solid #d6e8de; }
 .pf-badge.lab-ds { background: var(--highlight); color: var(--secondary); border: 1px solid var(--lightgray); }

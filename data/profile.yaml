@@ -5,15 +5,14 @@ affiliation:
   pi: { name: Sundong Kim, url: https://sundong.kim }
   institution: { name: GIST, url: https://www.gist.ac.kr, country: South Korea }
 bio: >
-  My research centers on human-like AI — drawing on human traits such as a sense of
-  self and motivation to shape how AI behaves and is built. Starting from a simple
-  question — what makes us human? — I work to translate those traits into the design
-  and implementation of intelligent agents.
+  I want to build AI that feels a little more human. People have things like a sense of
+  who they are and reasons to keep going, and I try to give some of that to AI. It all
+  starts with one question I keep coming back to: what makes us human?
 about: >
-  I'm a fourth-year B.S. student at GIST and an undergraduate researcher in the DS Lab.
-  I'm broadly interested in machine learning, deep learning, and statistics, and
-  increasingly in how cognition and neuroscience can inform the design of more
-  human-like agents. Previously I worked in the Language Cognition and Brain Lab (LCBL).
+  I'm a fourth-year student at GIST, and I do research in the DS Lab. I like teaching
+  computers to learn from data, and lately I've gotten curious about how the brain and
+  the mind work, because that can help us build AI that acts more like a person. Before
+  this, I worked in the Language Cognition and Brain Lab (LCBL).
 photo: ""
 interests:
   - Human-like AI
@@ -27,5 +26,5 @@ contacts:
   - { kind: email, label: juhyeon-park@gm.gist.ac.kr, href: "mailto:juhyeon-park@gm.gist.ac.kr" }
   - { kind: email, label: Gmail, href: "mailto:irregular6612@gmail.com" }
   - { kind: github, label: GitHub, href: "https://github.com/irregular6612" }
-  - { kind: orcid, label: ORCID, href: "", soon: true }
+  - { kind: orcid, label: ORCID, href: "https://orcid.org/0009-0006-1293-4398" }
   - { kind: scholar, label: Google Scholar, href: "", soon: true }

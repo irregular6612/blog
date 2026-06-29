@@ -51,6 +51,12 @@ export interface Project {
   lab: string
   desc?: string
   url?: string
+  authors?: string
+  venue?: string
+  // Paper/PDF link. Empty or absent → the button renders disabled (placeholder).
+  paper?: string
+  abstractKo?: string
+  abstractEn?: string
 }
 
 export interface Talk {

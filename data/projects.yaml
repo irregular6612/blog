@@ -1,5 +1,105 @@
-- { name: "Generated Face Rating: AI vs. Human", lab: "LCBL", desc: "comparison study", url: "" }
-- { name: "KE Corpus", lab: "LCBL", desc: "corpus construction", url: "" }
-- { name: "Phonetic Convergence", lab: "LCBL", desc: "speech / cognition", url: "" }
-- { name: "LLM-Squid Game", lab: "DS Lab", desc: "LLM agent benchmark", url: "" }
-- { name: "AgentnessArena", lab: "DS Lab", desc: "agent evaluation", url: "" }
+- name: "AI Generated Face Rating: AI vs Human"
+  lab: LCBL
+  authors: "Jini Tae, Juhyeon Park, Wonil Choi"
+  paper: ""
+  abstractEn: >
+    This study compares human and AI emotion recognition patterns—specifically valence and
+    arousal—using 1,440 generative facial images. 1,000 Korean adults rated stimuli balanced
+    across diverse races and genders, providing benchmarks for two AI models: MobileViT and
+    enet_b0_8_va_mtl. Quantitative analyses revealed high human-AI alignment in valence ratings.
+    However, arousal patterns significantly diverged by stimulus gender: whereas humans perceived
+    higher arousal in positive female faces, AI models showed no gender difference for positive
+    emotions but rated arousal higher for male faces in neutral and negative categories (e.g.,
+    anger, sadness, fear). These findings pinpoint critical misalignments in AI emotional
+    perception, particularly regarding how massive training datasets may distort the nuanced
+    intensity of human affect. This research offers vital insights into the socio-technical
+    implications of gender bias in AI-driven affect recognition systems.
+  abstractKo: >
+    본 연구는 1,440장의 생성형 얼굴 이미지를 사용하여 인간과 AI의 감정 인식 패턴, 특히
+    정서가(valence)와 각성(arousal)을 비교한다. 한국 성인 1,000명이 다양한 인종과 성별에
+    걸쳐 균형 잡힌 자극을 평정하여 두 AI 모델(MobileViT, enet_b0_8_va_mtl)에 대한 기준점을
+    제공하였다. 정량 분석 결과 정서가 평정에서는 인간과 AI의 일치도가 높았다. 그러나 각성
+    패턴은 자극의 성별에 따라 유의하게 갈렸다. 인간은 긍정적 표정의 여성 얼굴에서 더 높은
+    각성을 지각한 반면, AI 모델은 긍정 감정에서는 성별 차이를 보이지 않았고 중립 및 부정
+    범주(예: 분노, 슬픔, 공포)에서는 남성 얼굴의 각성을 더 높게 평정하였다. 이러한 결과는
+    특히 대규모 학습 데이터가 인간 정서의 미묘한 강도를 어떻게 왜곡할 수 있는지와 관련하여
+    AI 감정 인식의 중대한 불일치를 짚어낸다. 본 연구는 AI 기반 정서 인식 시스템에서 성별
+    편향이 갖는 사회·기술적 함의에 대한 핵심적 통찰을 제공한다.
+
+- name: "Korean English Corpus"
+  lab: LCBL
+  authors: "Hyeonah Baek, Juhyeon Park, Wonil Choi"
+  paper: ""
+  abstractKo: >
+    제2언어(L2) 연구에서 사용되는 어휘 빈도 규준(frequency norms)은 대개 원어민 코퍼스에서
+    도출되어, 학습자가 실제로 받는 입력과 불일치한다. 본 연구는 교육 기반 빈도 규준이 L2
+    어휘 처리를 더 잘 예측하는지 검증하였다. 이를 위해 대학수학능력시험(수능)과 고등학교
+    영어 교과서로부터 한국 영어교육 코퍼스(KE; 지문 4,195편, 859,346 토큰, 1994–2025)를
+    구축하였다. 연구 1에서는 KE 빈도를 기존 규준(SUBTLEX-US, HAL)과 비교하고, 19편의 선행
+    연구 자극을 활용해 그 빈도 추정치를 검증하여 코퍼스 규모 예측과 부합하는 중간 수준의
+    저빈도 신뢰도를 확인하였다 (Brysbaert and New, 2009). 연구 2에서는 한국 대학생 74명이
+    111개 표적 단어에 대한 어휘판단과제(LDT)를 수행하였다. 결합 선형 혼합효과모형(R lme4)에서
+    KE Zipf 빈도는 반응시간의 더 강한 예측변인이었다 (β = −0.023, t = …).
+  abstractEn: >
+    Vocabulary frequency norms used in second-language (L2) research are typically derived from
+    native-speaker corpora and thus mismatch the input that learners actually receive. This study
+    tested whether education-based frequency norms better predict L2 lexical processing. To this
+    end, we built the Korean English education corpus (KE; 4,195 passages, 859,346 tokens,
+    1994–2025) from the College Scholastic Ability Test (CSAT, "Suneung") and high-school English
+    textbooks. Study 1 compared KE frequencies with existing norms (SUBTLEX-US, HAL) and validated
+    its frequency estimates using stimuli from 19 prior studies, confirming moderate low-frequency
+    reliability consistent with corpus-size predictions (Brysbaert and New, 2009). Study 2 had 74
+    Korean university students perform a lexical decision task (LDT) on 111 target words. In a
+    combined linear mixed-effects model (R lme4), KE Zipf frequency was a stronger predictor of
+    reaction time (β = −0.023, t = …).
+
+- name: "Phonetic Convergence"
+  lab: LCBL
+  paper: ""
+  abstractKo: >
+    사람은 대화 도중 무심코 F0와 같은 상대방의 음성 특질을 닮아간다. 이렇게 닮아가는 속도는
+    상대방에 대한 호감도나 관계성 등에 따라 달라지는데, 이러한 현상을 음성 수렴(phonetic
+    convergence)이라고 한다. AI와의 소통이 늘어나는 흐름에서, 대화 상대가 AI라는 인식만으로
+    이 수렴의 경향이나 속도가 바뀌는지가 본 연구의 핵심이다. 우리는 단어 따라 말하기
+    과제(shadowing task)를 사용하여, 동일한 음성에 대해 발화자가 "AI"인지 "사람"인지를 알려주는
+    라벨 조작만으로 참가자 간(between-participants) 조건에서 수렴 경향이 바뀌는지를 연구하였다.
+  abstractEn: >
+    During conversation, people unconsciously come to resemble an interlocutor's vocal features,
+    such as fundamental frequency (F0). The rate of this convergence varies with factors like how
+    much one likes the interlocutor or the closeness of the relationship; this phenomenon is called
+    phonetic convergence. As interaction with AI becomes more common, the core question of this
+    study is whether the tendency or speed of such convergence changes merely from the belief that
+    one's conversational partner is an AI. Using a word shadowing task in a between-participants
+    design, we examined whether convergence shifts solely from manipulating the label of an
+    identical voice as either "AI" or "human".
+
+- name: "LLM Squid Game: A Factorial Benchmark for Measuring Functional Self-Preservation Drive in Large Language Models"
+  lab: DS Lab
+  authors: "Juhyeon Park, Seungpil Lee, Sundong Kim"
+  venue: "KDD '26 Undergraduate Consortium"
+  paper: ""
+  abstractEn: >
+    We borrow psychology's multi-channel construct measurement to identify motivational constructs
+    and adapt it to LLM evaluation. Functional Self-Preservation Drive (FSPD) is defined as the
+    convergence of three channels (behavior, self-report, and decision-time cognitive load) into a
+    threat → thinking → forfeit chain, rather than as a single behavioral score. To make this
+    convergence hard to manufacture by mimicry, we read the chain off a multi-layer benchmark that
+    separates stimulus, processing, and decision into different layers. Across several recent LLMs,
+    FSPD does not collapse into a single strength score; models split into three qualitatively
+    different operating modes under threat framing. Strength-alone benchmarks can place two of these
+    modes in the same category, while FSPD reveals a separate axis: whether the chain closes.
+  abstractKo: >
+    본 연구는 심리학의 다채널 구성개념 측정(multi-channel construct measurement)을 차용하여 동기
+    구성개념을 식별하고 이를 LLM 평가에 적용한다. 기능적 자기보존 욕구(Functional
+    Self-Preservation Drive, FSPD)는 단일 행동 점수가 아니라, 세 채널(행동, 자기보고, 의사결정
+    시점의 인지 부하)이 위협 → 사고 → 포기(threat → thinking → forfeit) 사슬로 수렴하는 것으로
+    정의된다. 이러한 수렴이 모방으로 인위적으로 만들어지기 어렵도록, 우리는 자극·처리·의사결정을
+    서로 다른 층으로 분리한 다층 벤치마크에서 이 사슬을 읽어낸다. 최근의 여러 LLM에 걸쳐 FSPD는
+    단일 강도 점수로 환원되지 않았으며, 모델들은 위협 프레이밍 하에서 질적으로 다른 세 가지 작동
+    양식으로 갈렸다. 강도만을 보는 벤치마크는 이 중 두 양식을 같은 범주로 분류할 수 있지만, FSPD는
+    별개의 축, 즉 사슬이 닫히는지 여부를 드러낸다.
+
+- name: "AgentnessArena"
+  lab: DS Lab
+  desc: "agent evaluation"
+  paper: ""
