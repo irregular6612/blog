@@ -5,17 +5,17 @@ affiliation:
   pi: { name: Sundong Kim, url: https://sundong.kim }
   institution: { name: GIST, url: https://www.gist.ac.kr, country: South Korea }
 bio: >
-  I want to build AI that feels a little more human — and I keep coming back to one
-  question: what makes us human?
+  I want to build AI that feels a bit more human. I keep asking myself one question. What
+  makes us human?
 about: >
-  The question I most want to pursue is whether an AI can behave as if it has a self and
-  desires of its own — not merely whether it can solve problems. Most AI research today
-  is aimed at improving problem-solving ability, but accuracy alone will not get us to the
-  human-like AI I ultimately want to build. People are not moved by correctness alone:
-  when we fail we revise our hypotheses, we retry the actions that matter, and we hold
-  onto a goal and keep going even when no one tells us to. I want to read these behaviors
-  through the lens of self, motivation, and drive — and turn them into measurable problems
-  that AI research can actually test.
+  I have one big question I want to work on. Can an AI act like it has its own self and
+  its own wants, and not just answer questions well? Right now, most AI research is about
+  getting more answers right. But being right is not enough to build the kind of
+  human-like AI I dream about. Think about how people act. When we get something wrong, we
+  change our guess and try again. We keep working toward a goal even when nobody tells us
+  to. I want to study these very human habits, like having a sense of who you are, feeling
+  motivated, and wanting things. And I want to find clear ways to measure them, so AI
+  research can test them too.
 photo: static/profile/profile.jpg
 interests:
   - Human-like AI
