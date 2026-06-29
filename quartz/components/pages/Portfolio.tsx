@@ -232,7 +232,7 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
 Portfolio.css = `
 .portfolio-root { display: flex; flex-direction: column; }
 .pf-hero { display: flex; gap: 1.8rem; align-items: flex-start; margin: 1rem 0 0.5rem; }
-.pf-photo { width: 168px; height: 168px; border-radius: 16px; flex: 0 0 auto; object-fit: cover; align-self: stretch; min-height: 168px; }
+.pf-photo { width: 168px; height: 168px; border-radius: 16px; flex: 0 0 auto; object-fit: cover; object-position: 50% 12%; align-self: stretch; min-height: 168px; }
 .pf-monogram { background: var(--dark); color: var(--light); display: flex; align-items: center; justify-content: center; font-family: var(--headerFont); font-size: 3.4rem; }
 .pf-name { font-family: var(--headerFont); font-weight: 500; font-size: 2.4rem; color: var(--dark); margin: 0 0 0.2rem; }
 .pf-role { font-size: 1.1rem; color: var(--secondary); font-weight: 600; margin: 0 0 0.15rem; }

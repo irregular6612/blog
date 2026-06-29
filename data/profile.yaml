@@ -5,14 +5,17 @@ affiliation:
   pi: { name: Sundong Kim, url: https://sundong.kim }
   institution: { name: GIST, url: https://www.gist.ac.kr, country: South Korea }
 bio: >
-  I want to build AI that feels a little more human. People have things like a sense of
-  who they are and reasons to keep going, and I try to give some of that to AI. It all
-  starts with one question I keep coming back to: what makes us human?
+  I want to build AI that feels a little more human — and I keep coming back to one
+  question: what makes us human?
 about: >
-  I'm a fourth-year student at GIST, and I do research in the DS Lab. I like teaching
-  computers to learn from data, and lately I've gotten curious about how the brain and
-  the mind work, because that can help us build AI that acts more like a person. Before
-  this, I worked in the Language Cognition and Brain Lab (LCBL).
+  The question I most want to pursue is whether an AI can behave as if it has a self and
+  desires of its own — not merely whether it can solve problems. Most AI research today
+  is aimed at improving problem-solving ability, but accuracy alone will not get us to the
+  human-like AI I ultimately want to build. People are not moved by correctness alone:
+  when we fail we revise our hypotheses, we retry the actions that matter, and we hold
+  onto a goal and keep going even when no one tells us to. I want to read these behaviors
+  through the lens of self, motivation, and drive — and turn them into measurable problems
+  that AI research can actually test.
 photo: static/profile/profile.jpg
 interests:
   - Human-like AI
