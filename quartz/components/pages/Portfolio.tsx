@@ -212,7 +212,7 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
             <p>Honors, scholarships, and competition results.</p>
           </a>
           <a class="pf-card" href={papersHref}>
-            <h3>📚 Research Papers →</h3>
+            <h3>📚 Paper Dashboard →</h3>
             <p>An interactive dashboard of paper reviews — searchable and filterable.</p>
           </a>
           <a class="pf-card" href={wikiHref}>
