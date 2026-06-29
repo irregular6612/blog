@@ -5,6 +5,7 @@ import NotFound from "./pages/404"
 import CanvasPage from "./pages/CanvasPage"
 import BasesPage from "./pages/BasesPage"
 import PapersDashboard from "./pages/PapersDashboard"
+import ConceptsDashboard from "./pages/ConceptsDashboard"
 import ArticleTitle from "./ArticleTitle"
 import Darkmode from "./Darkmode"
 import ReaderMode from "./ReaderMode"
@@ -43,6 +44,7 @@ export {
   CanvasPage,
   BasesPage,
   PapersDashboard,
+  ConceptsDashboard,
   Darkmode,
   ReaderMode,
   Head,

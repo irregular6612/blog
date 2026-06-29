@@ -23,6 +23,7 @@ const LINKS: NavLink[] = [
   { label: "Publications", target: "index" as FullSlug, anchor: "#publications" },
   { label: "Projects", target: "projects" as FullSlug },
   { label: "Papers", target: "papers" as FullSlug },
+  { label: "Concepts", target: "concepts" as FullSlug },
   { label: "Wiki", target: "AI" as FullSlug, folder: true },
   { label: "CV", target: "cv" as FullSlug },
 ]

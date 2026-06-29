@@ -22,6 +22,17 @@ export interface CountBucket {
   count: number
 }
 
+// Per-category reading progress. `read` = done + inProgress (the papers the
+// user has actually engaged with); the dashboard bars are scaled to `read`.
+export interface CategoryProgress {
+  key: string
+  done: number
+  inProgress: number
+  notStarted: number
+  read: number
+  total: number
+}
+
 export interface PaperAggregate {
   total: number
   doneCount: number
@@ -31,6 +42,7 @@ export interface PaperAggregate {
   yearMin: number | null
   yearMax: number | null
   byCategory: CountBucket[]
+  byCategoryProgress: CategoryProgress[]
   byYear: CountBucket[]
 }
 
@@ -49,6 +61,8 @@ export const TOP_CATEGORIES = [
   "Reasoning",
   "Survey",
   "Optimization",
+  "AGI",
+  "Dataset",
 ] as const
 
 const OTHER = "Other"
@@ -140,6 +154,24 @@ export function aggregate(records: PaperRecord[]): PaperAggregate {
       return b.count - a.count
     })
 
+  // Reading progress per category — only Done + In progress count as "read".
+  // Categories with zero read papers are dropped so the chart stays focused on
+  // what's actually been engaged with. Sorted by read volume, Other last.
+  const byCategoryProgress: CategoryProgress[] = byCategory
+    .map(({ key }) => {
+      const inCat = records.filter((r) => r.category === key)
+      const done = inCat.filter((r) => r.status === "Done").length
+      const inProgress = inCat.filter((r) => r.status === "In progress").length
+      const notStarted = inCat.filter((r) => r.status === "Not Started").length
+      return { key, done, inProgress, notStarted, read: done + inProgress, total: inCat.length }
+    })
+    .filter((c) => c.read > 0)
+    .sort((a, b) => {
+      if (a.key === OTHER) return 1
+      if (b.key === OTHER) return -1
+      return b.read - a.read
+    })
+
   const yearMap = countBy(
     records.filter((r) => r.year != null),
     (r) => String(r.year),
@@ -157,6 +189,7 @@ export function aggregate(records: PaperRecord[]): PaperAggregate {
     yearMin: years.length ? Math.min(...years) : null,
     yearMax: years.length ? Math.max(...years) : null,
     byCategory,
+    byCategoryProgress,
     byYear,
   }
 }

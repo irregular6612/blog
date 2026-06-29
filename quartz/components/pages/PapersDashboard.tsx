@@ -2,7 +2,7 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { resolveRelative, FullSlug } from "../../util/path"
 import {
   PaperRecord,
-  CountBucket,
+  CategoryProgress,
   TOP_CATEGORIES,
   ReadingStatus,
   QualityGrade,
@@ -13,20 +13,48 @@ import script from "../scripts/papersDashboard.inline"
 const STATUS_VALUES: ReadingStatus[] = ["Not Started", "In progress", "Done"]
 const EVIDENCE_VALUES: QualityGrade[] = ["A", "B", "C", "D"]
 
-function maxCount(buckets: CountBucket[]): number {
-  return buckets.reduce((m, b) => Math.max(m, b.count), 1)
-}
-
-function BarChart({ title, buckets }: { title: string; buckets: CountBucket[] }) {
-  const max = maxCount(buckets)
+// Reading progress per category. Each row is a stacked bar — Done + In progress
+// segments scaled to the busiest category's read count — so the eye reads both
+// "how much have I read in this area" (bar length) and "how far along"
+// (Done vs In-progress split). Only read papers (Done + In progress) are charted.
+function CategoryProgressChart({ rows }: { rows: CategoryProgress[] }) {
+  const maxRead = rows.reduce((m, r) => Math.max(m, r.read), 1)
   return (
-    <div class="papers-chart">
-      <div class="papers-chart-label">{title}</div>
-      {buckets.map((b) => (
-        <div class="papers-barrow" key={b.key}>
-          <span class="papers-barrow-key">{b.key}</span>
-          <span class="papers-bar" style={`width:${(b.count / max) * 100}%`}></span>
-          <span class="papers-barrow-count">{b.count}</span>
+    <div class="papers-chart papers-progress">
+      <div class="papers-chart-head">
+        <span class="papers-chart-label">카테고리별 읽은 논문</span>
+        <span class="papers-legend">
+          <span class="papers-legend-item">
+            <span class="papers-swatch papers-swatch-done"></span>Done
+          </span>
+          <span class="papers-legend-item">
+            <span class="papers-swatch papers-swatch-prog"></span>In progress
+          </span>
+        </span>
+      </div>
+      {rows.map((r) => (
+        <div class="papers-barrow" key={r.key}>
+          <span class="papers-barrow-key">{r.key}</span>
+          <span class="papers-stackbar" style={`width:${(r.read / maxRead) * 100}%`}>
+            {r.done > 0 && (
+              <span
+                class="papers-seg papers-seg-done"
+                style={`flex:${r.done}`}
+                title={`Done: ${r.done}`}
+              ></span>
+            )}
+            {r.inProgress > 0 && (
+              <span
+                class="papers-seg papers-seg-prog"
+                style={`flex:${r.inProgress}`}
+                title={`In progress: ${r.inProgress}`}
+              ></span>
+            )}
+          </span>
+          <span class="papers-barrow-count">
+            {r.read}
+            <span class="papers-barrow-frac"> / {r.total}</span>
+          </span>
         </div>
       ))}
     </div>
@@ -68,10 +96,9 @@ const PapersDashboard: QuartzComponent = ({ fileData }: QuartzComponentProps) =>
         ))}
       </div>
 
-      {/* 2. chart strip */}
+      {/* 2. reading progress by category */}
       <div class="papers-charts">
-        <BarChart title="By Category" buckets={aggregate.byCategory} />
-        <BarChart title="By Year" buckets={aggregate.byYear} />
+        <CategoryProgressChart rows={aggregate.byCategoryProgress} />
       </div>
 
       {/* 3. spotlight */}
@@ -187,10 +214,23 @@ PapersDashboard.css = `
   font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;
   color: var(--darkgray); margin-bottom: 0.4rem;
 }
-.papers-barrow { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; margin: 0.15rem 0; }
-.papers-barrow-key { width: 6.5rem; text-align: right; color: var(--darkgray); flex-shrink: 0; }
+.papers-barrow { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; margin: 0.2rem 0; }
+.papers-barrow-key { width: 8rem; text-align: right; color: var(--darkgray); flex-shrink: 0; }
 .papers-bar { height: 0.55rem; background: linear-gradient(90deg, var(--tertiary), var(--secondary)); border-radius: 4px; min-width: 2px; }
-.papers-barrow-count { color: var(--gray); font-size: 0.7rem; }
+.papers-barrow-count { color: var(--dark); font-size: 0.72rem; flex-shrink: 0; }
+.papers-barrow-frac { color: var(--gray); }
+/* category reading-progress chart */
+.papers-progress { flex: 1; }
+.papers-chart-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+.papers-legend { display: flex; gap: 0.7rem; }
+.papers-legend-item { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.65rem; color: var(--gray); }
+.papers-swatch { width: 0.6rem; height: 0.6rem; border-radius: 2px; display: inline-block; }
+.papers-swatch-done { background: var(--secondary); }
+.papers-swatch-prog { background: var(--tertiary); }
+.papers-stackbar { display: flex; height: 0.7rem; border-radius: 4px; overflow: hidden; min-width: 2px; background: var(--lightgray); }
+.papers-seg { height: 100%; min-width: 1px; }
+.papers-seg-done { background: var(--secondary); }
+.papers-seg-prog { background: var(--tertiary); }
 .papers-spotlight {
   border: 1px solid var(--lightgray); border-radius: 8px; padding: 0.6rem 0.8rem; background: var(--light);
 }

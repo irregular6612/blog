@@ -88,6 +88,7 @@ const config: QuartzConfig = {
       Plugin.CanvasPage(),
       Plugin.BasesPage(),
       Plugin.PapersDashboard(),
+      Plugin.ConceptsDashboard(),
       Plugin.ContentPage(),
       Plugin.AcademicLanding(),
       Plugin.CVPage(),

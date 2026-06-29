@@ -156,6 +156,20 @@ describe("aggregate", () => {
     )
     assert.equal(a.byYear[0].count, 2)
   })
+
+  test("byCategoryProgress counts read papers and drops zero-read categories", () => {
+    const a = aggregate(records)
+    // Application has 1 Done + 1 In progress; Other (Weird One-Off) has 0 read.
+    assert.equal(a.byCategoryProgress.length, 1)
+    assert.deepEqual(a.byCategoryProgress[0], {
+      key: "Application",
+      done: 1,
+      inProgress: 1,
+      notStarted: 0,
+      read: 2,
+      total: 2,
+    })
+  })
 })
 
 describe("selectSpotlight", () => {
@@ -182,8 +196,10 @@ describe("selectSpotlight", () => {
 })
 
 describe("TOP_CATEGORIES", () => {
-  test("has the eight known buckets", () => {
-    assert.equal(TOP_CATEGORIES.length, 8)
+  test("has the ten known buckets", () => {
+    assert.equal(TOP_CATEGORIES.length, 10)
     assert.ok(TOP_CATEGORIES.includes("Application"))
+    assert.ok(TOP_CATEGORIES.includes("AGI"))
+    assert.ok(TOP_CATEGORIES.includes("Dataset"))
   })
 })
