@@ -22,7 +22,6 @@ interface NavLink {
 // "Wiki" points at the AI folder page as a garden entry, and reveals the
 // Papers/Concepts dashboards on hover.
 const LINKS: NavLink[] = [
-  { label: "About", target: "index" as FullSlug, anchor: "#about" },
   { label: "CV", target: "cv" as FullSlug },
   { label: "Publications", target: "publications" as FullSlug },
   { label: "Projects", target: "projects" as FullSlug },

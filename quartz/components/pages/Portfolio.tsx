@@ -121,6 +121,7 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
             )}
           </p>
           <p class="pf-bio">{profile.bio}</p>
+          {profile.about && <p class="pf-bio-about">{profile.about}</p>}
         </div>
         {profile.contacts.length > 0 && (
           <aside class="pf-contactcard">
@@ -148,11 +149,6 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
             </div>
           </aside>
         )}
-      </section>
-
-      <section id="about" class="pf-section">
-        <h2 class="pf-label">About</h2>
-        <p class="pf-text">{profile.about ?? profile.bio}</p>
       </section>
 
       <section class="pf-section">
@@ -238,6 +234,7 @@ Portfolio.css = `
 .pf-role { font-size: 1.1rem; color: var(--secondary); font-weight: 600; margin: 0 0 0.15rem; }
 .pf-affil { font-size: 0.98rem; color: var(--gray); margin: 0 0 0.7rem; }
 .pf-bio { font-size: 1.08rem; line-height: 1.6; margin: 0.3rem 0 0; }
+.pf-bio-about { font-size: 1.02rem; line-height: 1.65; margin: 0.7rem 0 0; color: var(--darkgray); }
 .pf-hero-main { flex: 1; min-width: 0; }
 .pf-contactcard { flex: 0 0 auto; min-width: 12rem; max-width: 16rem; align-self: stretch; border-left: 1px solid var(--lightgray); padding-left: 1.5rem; }
 .pf-contactlist { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.7rem; }
@@ -249,7 +246,6 @@ Portfolio.css = `
 .pf-soon svg { opacity: 0.7; }
 .pf-section { padding-top: 1.3rem; margin-top: 1.3rem; border-top: 1px solid var(--lightgray); }
 .pf-label { font-family: var(--bodyFont); font-size: 0.76rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--gray); font-weight: 600; margin: 0 0 0.7rem; }
-.pf-text { font-size: 1.06rem; line-height: 1.65; margin: 0; }
 .pf-chips { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 .pf-chip { font-size: 0.92rem; padding: 0.32rem 0.8rem; border-radius: 7px; background: var(--highlight); color: var(--secondary); }
 .pf-news { display: flex; flex-direction: column; }
