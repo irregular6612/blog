@@ -16,12 +16,15 @@ about: >
 photo: static/profile/profile.jpg
 interests:
   - Human-like AI
-  - Self & Motivation
+  - Self
+  - Motivation
   - Artificial Intelligence
-  - Deep Learning
-  - Statistics
-  - Reinforcement Learning
-  - Neuroscience
+  - Cognition
+  - Drive
+  - Theory of Mind
+  - Metacognition
+  - Benchmark
+  - LLM
 contacts:
   - { kind: email, label: juhyeon-park@gm.gist.ac.kr, href: "mailto:juhyeon-park@gm.gist.ac.kr" }
   - { kind: email, label: Gmail, href: "mailto:irregular6612@gmail.com" }
