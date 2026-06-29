@@ -40,15 +40,20 @@ const Publications: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
 
       <section class="pf-section">
         {pubs.length > 0 ? (
-          <div class="pf-pubs">
+          <div class="pf-pubcards">
             {pubs.map((p, idx) => (
-              <div class="pf-pub" key={idx}>
-                <span class="pf-pub-year">{p.year}</span>
-                <span class="pf-pub-main">
-                  <b>{p.title}</b>. {p.authors}. <i>{p.venue}</i>.
-                </span>
+              <article class="pf-pubcard" key={idx}>
+                <h3 class="pf-pubcard-title">{p.title}</h3>
+                <dl class="pf-pubcard-meta">
+                  <dt>Authors</dt>
+                  <dd class="pf-pubcard-authors">{p.authors}</dd>
+                  <dt>Venue</dt>
+                  <dd class="pf-pubcard-venue">{p.venue}</dd>
+                  <dt>Date</dt>
+                  <dd class="pf-pubcard-date">{p.date ?? p.year}</dd>
+                </dl>
                 <PubLinks p={p} />
-              </div>
+              </article>
             ))}
           </div>
         ) : (
@@ -58,5 +63,22 @@ const Publications: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
     </div>
   )
 }
+
+Publications.css = `
+.pf-pubcards { display: flex; flex-direction: column; }
+.pf-pubcard { padding: 1rem 0; border-bottom: 1px solid var(--lightgray); }
+.pf-pubcard:first-child { padding-top: 0; }
+.pf-pubcard-title { font-family: var(--headerFont); font-weight: 600; font-size: 1.12rem; color: var(--dark); line-height: 1.45; margin: 0 0 0.55rem; }
+.pf-pubcard-meta { display: grid; grid-template-columns: max-content 1fr; gap: 0.22rem 0.9rem; margin: 0; }
+.pf-pubcard-meta dt { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--gray); font-weight: 600; padding-top: 0.12rem; }
+.pf-pubcard-meta dd { margin: 0; font-size: 0.96rem; color: var(--darkgray); line-height: 1.5; }
+.pf-pubcard-venue { font-style: italic; color: var(--secondary); }
+.pf-pubcard-date { font-variant-numeric: tabular-nums; }
+.pf-pubcard .pf-pub-links { margin-top: 0.55rem; }
+@media all and (max-width: 600px) {
+  .pf-pubcard-meta { grid-template-columns: 1fr; gap: 0.05rem 0; }
+  .pf-pubcard-meta dt { padding-top: 0.4rem; }
+}
+`
 
 export default (() => Publications) satisfies QuartzComponentConstructor

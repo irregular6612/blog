@@ -39,6 +39,9 @@ export interface PublicationLinks {
 
 export interface Publication {
   year: number
+  // Optional human-friendly date (e.g. "Aug 2026"). Falls back to `year` for
+  // display; `year` is always used for sorting.
+  date?: string
   title: string
   authors: string
   venue: string
