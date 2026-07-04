@@ -95,7 +95,7 @@
   authors: "Juhyeon Park, Seungpil Lee, Sundong Kim"
   venue: "KDD '26 Undergraduate Consortium"
   published: true
-  paper: ""
+  paper: "https://gist-dslab.github.io/LLM-Squid-Game/"
   abstractEn: >
     We borrow psychology's multi-channel construct measurement to identify motivational constructs
     and adapt it to LLM evaluation. Functional Self-Preservation Drive (FSPD) is defined as the
