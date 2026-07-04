@@ -93,7 +93,7 @@
   venue: "KDD '26 Undergraduate Consortium"
   published: true
   link: "https://gist-dslab.github.io/LLM-Squid-Game/"
-  pdf: ""
+  pdf: "https://gist-dslab.github.io/LLM-Squid-Game/assets/paper.pdf"
   abstractEn: >
     We borrow psychology's multi-channel construct measurement to identify motivational constructs
     and adapt it to LLM evaluation. Functional Self-Preservation Drive (FSPD) is defined as the
