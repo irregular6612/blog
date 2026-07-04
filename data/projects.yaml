@@ -2,7 +2,6 @@
   lab: LCBL
   year: 2025
   authors: "Jini Tae, Juhyeon Park, Wonil Choi"
-  paper: ""
   abstractEn: >
     This study compares human and AI emotion recognition patterns—specifically valence and
     arousal—using 1,440 generative facial images. 1,000 Korean adults rated stimuli balanced
@@ -31,7 +30,6 @@
   lab: LCBL
   year: 2025
   authors: "Hyeonah Baek, Juhyeon Park, Wonil Choi"
-  paper: ""
   abstractKo: >
     제2언어(L2) 연구에서 사용되는 어휘 빈도 규준(frequency norms)은 대개 원어민 코퍼스에서
     도출되어, 학습자가 실제로 받는 입력과 불일치한다. 본 연구는 교육 기반 빈도 규준이 L2
@@ -71,7 +69,6 @@
 - name: "Phonetic Convergence"
   lab: LCBL
   year: 2025
-  paper: ""
   abstractKo: >
     사람은 대화 도중 무심코 F0와 같은 상대방의 음성 특질을 닮아간다. 이렇게 닮아가는 속도는
     상대방에 대한 호감도나 관계성 등에 따라 달라지는데, 이러한 현상을 음성 수렴(phonetic
@@ -95,7 +92,8 @@
   authors: "Juhyeon Park, Seungpil Lee, Sundong Kim"
   venue: "KDD '26 Undergraduate Consortium"
   published: true
-  paper: "https://gist-dslab.github.io/LLM-Squid-Game/"
+  link: "https://gist-dslab.github.io/LLM-Squid-Game/"
+  pdf: ""
   abstractEn: >
     We borrow psychology's multi-channel construct measurement to identify motivational constructs
     and adapt it to LLM evaluation. Functional Self-Preservation Drive (FSPD) is defined as the
@@ -121,4 +119,3 @@
   lab: DS Lab
   year: 2026
   desc: "agent evaluation"
-  paper: ""

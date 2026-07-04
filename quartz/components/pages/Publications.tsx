@@ -8,6 +8,7 @@ import { ProjectCard } from "./Projects"
 const Publications: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const data = fileData.portfolioData
   if (!data) return <p>No portfolio data.</p>
+  const slug = fileData.slug!
   const pubs = publishedProjects(data.projects)
 
   return (
@@ -23,7 +24,7 @@ const Publications: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
         {pubs.length > 0 ? (
           <div class="pf-projects">
             {pubs.map((pr, idx) => (
-              <ProjectCard pr={pr} key={idx} />
+              <ProjectCard pr={pr} slug={slug} key={idx} />
             ))}
           </div>
         ) : (

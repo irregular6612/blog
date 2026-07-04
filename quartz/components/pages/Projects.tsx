@@ -1,8 +1,16 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 import { labBadgeClass, projectsByYear } from "../../util/portfolio"
 import type { Project } from "../../util/portfolio"
+import { pathToRoot, joinSegments, FullSlug } from "../../util/path"
 
-export function ProjectCard({ pr }: { pr: Project }) {
+// Root-relative static paths (e.g. "static/papers/x.pdf") are resolved against
+// the page so they survive the GitHub Pages "/blog" baseUrl; absolute URLs pass
+// through untouched.
+function resolveAsset(slug: FullSlug, v: string): string {
+  return /^https?:\/\//.test(v) ? v : joinSegments(pathToRoot(slug), v)
+}
+
+export function ProjectCard({ pr, slug }: { pr: Project; slug: FullSlug }) {
   return (
     <div class="pf-project">
       <div class="pf-project-head">
@@ -32,8 +40,23 @@ export function ProjectCard({ pr }: { pr: Project }) {
             </div>
           </details>
         )}
-        {pr.paper ? (
-          <a class="pf-btn" href={pr.paper} target="_blank" rel="noopener noreferrer">
+        {pr.link && (
+          <a
+            class="pf-btn"
+            href={resolveAsset(slug, pr.link)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Link
+          </a>
+        )}
+        {pr.pdf ? (
+          <a
+            class="pf-btn"
+            href={resolveAsset(slug, pr.pdf)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             PDF
           </a>
         ) : (
@@ -49,6 +72,7 @@ export function ProjectCard({ pr }: { pr: Project }) {
 const Projects: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const data = fileData.portfolioData
   if (!data) return <p>No portfolio data.</p>
+  const slug = fileData.slug!
   const groups = projectsByYear(data.projects)
 
   return (
@@ -66,7 +90,7 @@ const Projects: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
             <h2 class="pf-year">{g.year || "Other"}</h2>
             <div class="pf-projects">
               {g.items.map((pr, idx) => (
-                <ProjectCard pr={pr} key={idx} />
+                <ProjectCard pr={pr} slug={slug} key={idx} />
               ))}
             </div>
           </section>

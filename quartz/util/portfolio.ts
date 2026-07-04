@@ -57,8 +57,12 @@ export interface Project {
   authors?: string
   venue?: string
   year?: number
-  // Paper/PDF link. Empty or absent → the button renders disabled (placeholder).
-  paper?: string
+  // External project/site link → "Link" button (absolute URL or root-relative
+  // path like "static/…"). Absent → no Link button.
+  link?: string
+  // PDF link → "PDF" button (absolute URL or root-relative static path).
+  // Absent → the PDF button renders disabled (placeholder).
+  pdf?: string
   abstractKo?: string
   abstractEn?: string
   // When true, the project is also surfaced on the Publications page/teaser.
