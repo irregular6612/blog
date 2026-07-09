@@ -9,6 +9,7 @@ interface CustomEventMap {
   nav: CustomEvent<{ url: FullSlug }>
   themechange: CustomEvent<{ theme: "light" | "dark" }>
   readermodechange: CustomEvent<{ mode: "on" | "off" }>
+  langchange: CustomEvent<{ lang: "en" | "ko" }>
 }
 
 type ContentIndex = Record<FullSlug, ContentDetails>
