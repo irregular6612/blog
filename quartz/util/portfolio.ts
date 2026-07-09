@@ -2,6 +2,15 @@ import fs from "fs"
 import path from "path"
 import yaml from "js-yaml"
 
+// A translatable string. A plain string means "identical in both languages";
+// an { en, ko } object carries the two variants. Both are always rendered into
+// the HTML — the active one is shown via the `saved-lang` attribute + CSS.
+export type Localized<T> = T | { en: T; ko: T }
+
+export function localizedPair(v: Localized<string>): { en: string; ko: string } {
+  return typeof v === "string" ? { en: v, ko: v } : v
+}
+
 export interface Contact {
   kind: string
   label: string
@@ -17,10 +26,10 @@ export interface Affiliation {
 
 export interface Profile {
   name: string
-  role: string
+  role: Localized<string>
   affiliation: Affiliation
-  bio: string
-  about?: string
+  bio: Localized<string>
+  about?: Localized<string>
   photo?: string
   interests: string[]
   contacts: Contact[]
@@ -28,7 +37,7 @@ export interface Profile {
 
 export interface NewsItem {
   date: string | number
-  html: string
+  html: Localized<string>
 }
 
 export interface PublicationLinks {

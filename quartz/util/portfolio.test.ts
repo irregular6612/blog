@@ -3,7 +3,13 @@ import assert from "node:assert/strict"
 import fs from "fs"
 import os from "os"
 import path from "path"
-import { loadPortfolio, selectedPublications, labBadgeClass, projectsByYear } from "./portfolio"
+import {
+  loadPortfolio,
+  selectedPublications,
+  labBadgeClass,
+  projectsByYear,
+  localizedPair,
+} from "./portfolio"
 import type { Publication, Project } from "./portfolio"
 
 function fixtureDir(files: Record<string, string>): string {
@@ -102,5 +108,17 @@ describe("projectsByYear", () => {
   test("projects without a year fall into the 0 bucket shown last", () => {
     const groups = projectsByYear([{ name: "X", lab: "DS Lab" }, ...projects])
     assert.equal(groups[groups.length - 1].year, 0)
+  })
+})
+
+describe("localizedPair", () => {
+  test("wraps a plain string as identical en/ko", () => {
+    assert.deepEqual(localizedPair("hello"), { en: "hello", ko: "hello" })
+  })
+  test("passes an { en, ko } object through unchanged", () => {
+    assert.deepEqual(localizedPair({ en: "Researcher", ko: "연구생" }), {
+      en: "Researcher",
+      ko: "연구생",
+    })
   })
 })
