@@ -1,0 +1,82 @@
+// --- Global language show/hide (both variants are always in the DOM) ---
+// Default (attribute unset) shows English.
+html .i18n-ko {
+  display: none;
+}
+html[saved-lang="ko"] .i18n-ko {
+  display: revert;
+}
+html[saved-lang="ko"] .i18n-en {
+  display: none;
+}
+
+// --- The slide switch ---
+.langtoggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--gray);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  user-select: none;
+
+  & .langtoggle-track {
+    position: relative;
+    width: 2.1rem;
+    height: 1.1rem;
+    border-radius: 999px;
+    background: var(--lightgray);
+    transition: background 0.2s ease;
+    flex: 0 0 auto;
+  }
+
+  & .langtoggle-knob {
+    position: absolute;
+    top: 0.15rem;
+    left: 0.15rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: var(--light);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease;
+  }
+
+  // Active-language label gets emphasis.
+  & .langtoggle-en {
+    color: var(--secondary);
+  }
+  & .langtoggle-ko {
+    color: var(--gray);
+  }
+
+  // Flip the knob to the KO position. Driven by BOTH aria-checked (updated on
+  // click) and the saved-lang attribute (set before first paint by the inline
+  // script) so a returning Korean visitor's knob is already flipped on load —
+  // no EN→KO flicker, matching darkmode's attribute-driven icon approach.
+  &[aria-checked="true"],
+  :root[saved-lang="ko"] & {
+    & .langtoggle-track {
+      background: var(--secondary);
+    }
+    & .langtoggle-knob {
+      transform: translateX(1rem);
+    }
+    & .langtoggle-en {
+      color: var(--gray);
+    }
+    & .langtoggle-ko {
+      color: var(--secondary);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--secondary);
+    outline-offset: 2px;
+  }
+}

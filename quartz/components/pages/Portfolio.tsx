@@ -1,7 +1,8 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 import { resolveRelative, pathToRoot, joinSegments, FullSlug } from "../../util/path"
-import { publishedProjects } from "../../util/portfolio"
+import { publishedProjects, localizedPair } from "../../util/portfolio"
 import { ProjectCard } from "./Projects"
+import { T } from "../LangText"
 
 function monogram(name: string): string {
   return name
@@ -102,7 +103,9 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
         )}
         <div class="pf-hero-main">
           <h1 class="pf-name">{profile.name}</h1>
-          <p class="pf-role">{profile.role}</p>
+          <p class="pf-role">
+            <T {...localizedPair(profile.role)} />
+          </p>
           <p class="pf-affil">
             {aff.lab && (aff.lab.url ? <a href={aff.lab.url}>{aff.lab.name}</a> : aff.lab.name)}
             {aff.pi && (
@@ -120,18 +123,28 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
               </>
             )}
           </p>
-          <p class="pf-bio">{profile.bio}</p>
-          {profile.about && <p class="pf-bio-about">{profile.about}</p>}
+          <p class="pf-bio">
+            <T {...localizedPair(profile.bio)} />
+          </p>
+          {profile.about && (
+            <p class="pf-bio-about">
+              <T {...localizedPair(profile.about)} />
+            </p>
+          )}
         </div>
         {profile.contacts.length > 0 && (
           <aside class="pf-contactcard">
-            <h2 class="pf-label">Contact</h2>
+            <h2 class="pf-label">
+              <T en="Contact" ko="연락처" />
+            </h2>
             <div class="pf-contactlist">
               {profile.contacts.map((c) =>
                 c.soon || !c.href ? (
                   <span class="pf-contactrow pf-soon" key={c.label}>
                     <ContactIcon kind={c.kind} />
-                    <span>{c.label} — soon</span>
+                    <span>
+                      {c.label} — <T en="soon" ko="준비 중" />
+                    </span>
                   </span>
                 ) : (
                   <a
@@ -152,7 +165,9 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
       </section>
 
       <section class="pf-section">
-        <h2 class="pf-label">Research Interests</h2>
+        <h2 class="pf-label">
+          <T en="Research Interests" ko="연구 관심사" />
+        </h2>
         <div class="pf-chips">
           {profile.interests.map((i) => (
             <span class="pf-chip" key={i}>
@@ -164,24 +179,34 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
 
       {news.length > 0 && (
         <section class="pf-section">
-          <h2 class="pf-label">News</h2>
+          <h2 class="pf-label">
+            <T en="News" ko="소식" />
+          </h2>
           <div class="pf-news">
-            {news.map((n, idx) => (
-              <div class="pf-news-row" key={idx}>
-                <span class="pf-news-date">{n.date}</span>
-                <span class="pf-news-text" dangerouslySetInnerHTML={{ __html: n.html }} />
-              </div>
-            ))}
+            {news.map((n, idx) => {
+              const html = localizedPair(n.html)
+              return (
+                <div class="pf-news-row" key={idx}>
+                  <span class="pf-news-date">{n.date}</span>
+                  <span class="pf-news-text">
+                    <span class="i18n-en" dangerouslySetInnerHTML={{ __html: html.en }} />
+                    <span class="i18n-ko" dangerouslySetInnerHTML={{ __html: html.ko }} />
+                  </span>
+                </div>
+              )
+            })}
           </div>
         </section>
       )}
 
       <section id="publications" class="pf-section">
         <div class="pf-label-row">
-          <h2 class="pf-label">Selected Publications</h2>
+          <h2 class="pf-label">
+            <T en="Selected Publications" ko="주요 논문" />
+          </h2>
           {pubs.length > 0 && (
             <a class="pf-seeall" href={publicationsHref}>
-              All publications →
+              <T en="All publications →" ko="전체 논문 →" />
             </a>
           )}
         </div>
@@ -192,32 +217,71 @@ const Portfolio: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
             ))}
           </div>
         ) : (
-          <p class="pf-empty">Publications will appear here soon.</p>
+          <p class="pf-empty">
+            <T en="Publications will appear here soon." ko="논문이 곧 여기에 올라옵니다." />
+          </p>
         )}
       </section>
 
       <section class="pf-section">
-        <h2 class="pf-label">Explore</h2>
+        <h2 class="pf-label">
+          <T en="Explore" ko="둘러보기" />
+        </h2>
         <div class="pf-explore">
           <a class="pf-card" href={publicationsHref}>
-            <h3>📄 Publications →</h3>
-            <p>The full list of publications, including consortium and workshop papers.</p>
+            <h3>
+              📄 <T en="Publications →" ko="논문 →" />
+            </h3>
+            <p>
+              <T
+                en="The full list of publications, including consortium and workshop papers."
+                ko="컨소시엄·워크숍 논문을 포함한 전체 논문 목록입니다."
+              />
+            </p>
           </a>
           <a class="pf-card" href={talksHref}>
-            <h3>🎤 Talks →</h3>
-            <p>Invited talks, conference presentations, and seminar slides.</p>
+            <h3>
+              🎤 <T en="Talks →" ko="발표 →" />
+            </h3>
+            <p>
+              <T
+                en="Invited talks, conference presentations, and seminar slides."
+                ko="초청 강연, 학회 발표, 세미나 슬라이드입니다."
+              />
+            </p>
           </a>
           <a class="pf-card" href={awardsHref}>
-            <h3>🏆 Awards →</h3>
-            <p>Honors, scholarships, and competition results.</p>
+            <h3>
+              🏆 <T en="Awards →" ko="수상 →" />
+            </h3>
+            <p>
+              <T
+                en="Honors, scholarships, and competition results."
+                ko="수상, 장학금, 대회 결과입니다."
+              />
+            </p>
           </a>
           <a class="pf-card" href={papersHref}>
-            <h3>📚 Paper Dashboard →</h3>
-            <p>An interactive dashboard of paper reviews — searchable and filterable.</p>
+            <h3>
+              📚 <T en="Paper Dashboard →" ko="논문 대시보드 →" />
+            </h3>
+            <p>
+              <T
+                en="An interactive dashboard of paper reviews — searchable and filterable."
+                ko="검색과 필터가 가능한 인터랙티브 논문 리뷰 대시보드입니다."
+              />
+            </p>
           </a>
           <a class="pf-card" href={wikiHref}>
-            <h3>🧠 Knowledge Wiki →</h3>
-            <p>My digital garden of linked notes, maintained as an LLM-curated wiki.</p>
+            <h3>
+              🧠 <T en="Knowledge Wiki →" ko="지식 위키 →" />
+            </h3>
+            <p>
+              <T
+                en="My digital garden of linked notes, maintained as an LLM-curated wiki."
+                ko="LLM이 큐레이션하는 위키로 관리하는, 서로 연결된 노트들의 디지털 가든입니다."
+              />
+            </p>
           </a>
         </div>
       </section>
@@ -278,7 +342,6 @@ Portfolio.css = `
 .pf-abstract[open] > summary { background: var(--secondary); color: var(--light); border-color: var(--secondary); }
 .pf-abstract-body { margin-top: 0.55rem; }
 .pf-abstract-inline { margin-top: 0.25rem; }
-.pf-abstract-block + .pf-abstract-block { margin-top: 0.6rem; }
 .pf-abstract-lang { display: inline-block; font-size: 0.7rem; letter-spacing: 0.11em; text-transform: uppercase; color: var(--gray); font-weight: 600; margin-bottom: 0.2rem; }
 .pf-abstract-block p { margin: 0; font-size: 0.95rem; line-height: 1.6; }
 .pf-badge { margin-left: auto; font-size: 0.74rem; padding: 0.2rem 0.6rem; border-radius: 999px; font-weight: 600; white-space: nowrap; }

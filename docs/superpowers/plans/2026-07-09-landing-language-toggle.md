@@ -17,7 +17,7 @@
 - **Default language is English.** First-time visitors (no `localStorage.lang`) see English.
 - **Scope: landing (`index`) page only.** The toggle switch renders only when `fileData.slug === "index"`. The `<T>`-wrapped nav labels and the global i18n CSS rules are harmless on other portfolio surfaces and may appear there.
 - **Data schema for translatable text is `{ en, ko }`.** A plain string means "identical in both languages" (backward-compatible).
-- **Verification gate for every task:** `npm run check` (tsc + prettier) must pass. Tasks with a unit test also run it.
+- **Verification gate for every task:** (a) `npm run test` passes; (b) **zero NEW tsc errors** — the repo has 19 pre-existing `tsc --noEmit` errors, all confined to legacy `Bases`/`ContentIndex`/`bases` files (`quartz/components/pages/BasesPage.tsx`, `quartz/plugins/emitters/basesPage.tsx`, `quartz/plugins/emitters/contentIndex.tsx`, `quartz/plugins/transformers/bases.ts`, `quartz/components/scripts/baseTransclude.inline.ts`). Do NOT fix these; just ensure the files you touch introduce no new errors (`npx tsc --noEmit 2>&1 | grep -c "error TS"` must stay at 19, and none of the new errors name a file you changed); (c) `npx prettier --check` clean on changed files (run `npm run format` before committing). Do NOT rely on `npm run check` pass/fail — it always fails on the 19 legacy errors.
 
 ---
 
@@ -169,7 +169,7 @@ And add `T` to the `export { ... }` block (e.g. after `TopNav,`).
 
 - [ ] **Step 3: Verify the project still type-checks**
 
-Run: `npm run check`
+Run: `npx tsc --noEmit 2>&1 | grep -c "error TS"` (expect 19; confirm no new error names a file you changed) and `npx prettier --check <changed files>`
 Expected: PASS (no type or prettier errors).
 
 - [ ] **Step 4: Commit**
@@ -248,7 +248,7 @@ document.addEventListener("nav", () => {
 
 - [ ] **Step 3: Verify type-check**
 
-Run: `npm run check`
+Run: `npx tsc --noEmit 2>&1 | grep -c "error TS"` (expect 19; confirm no new error names a file you changed) and `npx prettier --check <changed files>`
 Expected: PASS.
 
 - [ ] **Step 4: Commit**
@@ -398,7 +398,7 @@ html[saved-lang="ko"] .i18n-en {
 
 - [ ] **Step 3: Verify type-check**
 
-Run: `npm run check`
+Run: `npx tsc --noEmit 2>&1 | grep -c "error TS"` (expect 19; confirm no new error names a file you changed) and `npx prettier --check <changed files>`
 Expected: PASS.
 
 - [ ] **Step 4: Commit**
@@ -533,7 +533,7 @@ TopNav.afterDOMLoaded = DarkmodeInner.afterDOMLoaded
 
 - [ ] **Step 5: Verify type-check**
 
-Run: `npm run check`
+Run: `npx tsc --noEmit 2>&1 | grep -c "error TS"` (expect 19; confirm no new error names a file you changed) and `npx prettier --check <changed files>`
 Expected: PASS.
 
 - [ ] **Step 6: Commit**
@@ -785,7 +785,7 @@ In `quartz/components/pages/Projects.tsx`, in `ProjectCard`, replace the two abs
 
 - [ ] **Step 10: Verify type-check**
 
-Run: `npm run check`
+Run: `npx tsc --noEmit 2>&1 | grep -c "error TS"` (expect 19; confirm no new error names a file you changed) and `npx prettier --check <changed files>`
 Expected: PASS.
 
 - [ ] **Step 11: Commit**
@@ -868,7 +868,7 @@ Replace the entire `data/news.yaml` with:
 
 - [ ] **Step 3: Verify the data loads and type-checks**
 
-Run: `npx tsx --test quartz/util/portfolio.test.ts && npm run check`
+Run: `npx tsx --test quartz/util/portfolio.test.ts` and `npx tsc --noEmit 2>&1 | grep -c "error TS"` (expect 19)
 Expected: PASS (data files parse; types are satisfied).
 
 - [ ] **Step 4: Commit**

@@ -32,6 +32,7 @@ import ReadingProgress from "./ReadingProgress"
 import SocialShare from "./SocialShare"
 import KeyboardShortcuts from "./KeyboardShortcuts"
 import TopNav from "./TopNav"
+import { T } from "./LangText"
 import Portfolio from "./pages/Portfolio"
 import CV from "./pages/CV"
 import Projects from "./pages/Projects"
@@ -74,6 +75,7 @@ export {
   SocialShare,
   KeyboardShortcuts,
   TopNav,
+  T,
   Portfolio,
   CV,
   Projects,

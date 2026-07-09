@@ -2,11 +2,15 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { resolveRelative, FullSlug } from "../util/path"
 import { concatenateResources } from "../util/resources"
 import Darkmode from "./Darkmode"
+import LangToggle from "./LangToggle"
+import { T } from "./LangText"
 
 const DarkmodeInner = Darkmode()
+const LangToggleInner = LangToggle()
 
 interface NavLink {
   label: string
+  labelKo: string
   target: FullSlug
   anchor?: string
   // Folder targets must keep a trailing slash so relative links on the
@@ -22,18 +26,19 @@ interface NavLink {
 // "Wiki" points at the AI folder page as a garden entry, and reveals the
 // Papers/Concepts dashboards on hover.
 const LINKS: NavLink[] = [
-  { label: "CV", target: "cv" as FullSlug },
-  { label: "Publications", target: "publications" as FullSlug },
-  { label: "Projects", target: "projects" as FullSlug },
-  { label: "Talks", target: "talks" as FullSlug },
-  { label: "Awards", target: "awards" as FullSlug },
+  { label: "CV", labelKo: "이력서", target: "cv" as FullSlug },
+  { label: "Publications", labelKo: "논문", target: "publications" as FullSlug },
+  { label: "Projects", labelKo: "프로젝트", target: "projects" as FullSlug },
+  { label: "Talks", labelKo: "발표", target: "talks" as FullSlug },
+  { label: "Awards", labelKo: "수상", target: "awards" as FullSlug },
   {
     label: "Wiki",
+    labelKo: "위키",
     target: "AI" as FullSlug,
     folder: true,
     children: [
-      { label: "Papers", target: "papers" as FullSlug },
-      { label: "Concepts", target: "concepts" as FullSlug },
+      { label: "Papers", labelKo: "논문", target: "papers" as FullSlug },
+      { label: "Concepts", labelKo: "개념", target: "concepts" as FullSlug },
     ],
   },
 ]
@@ -53,22 +58,23 @@ const TopNav: QuartzComponent = (props: QuartzComponentProps) => {
           l.children ? (
             <div class="topnav-item" key={l.label}>
               <a class="topnav-link topnav-parent" href={hrefOf(l)}>
-                {l.label} <span class="topnav-caret">▾</span>
+                <T en={l.label} ko={l.labelKo} /> <span class="topnav-caret">▾</span>
               </a>
               <div class="topnav-dropdown">
                 {l.children.map((c) => (
                   <a class="topnav-dropdown-link" key={c.label} href={hrefOf(c)}>
-                    {c.label}
+                    <T en={c.label} ko={c.labelKo} />
                   </a>
                 ))}
               </div>
             </div>
           ) : (
             <a class="topnav-link" key={l.label} href={hrefOf(l)}>
-              {l.label}
+              <T en={l.label} ko={l.labelKo} />
             </a>
           ),
         )}
+        {slug === "index" && <LangToggleInner {...props} />}
         <DarkmodeInner {...props} />
       </div>
     </nav>
@@ -135,8 +141,12 @@ TopNav.css = concatenateResources(
 #quartz-body:has(.portfolio-root) .sidebar { display: none !important; }
 `,
   DarkmodeInner.css,
+  LangToggleInner.css,
 )
-TopNav.beforeDOMLoaded = DarkmodeInner.beforeDOMLoaded
+TopNav.beforeDOMLoaded = concatenateResources(
+  DarkmodeInner.beforeDOMLoaded,
+  LangToggleInner.beforeDOMLoaded,
+)
 TopNav.afterDOMLoaded = DarkmodeInner.afterDOMLoaded
 
 export default (() => TopNav) satisfies QuartzComponentConstructor
