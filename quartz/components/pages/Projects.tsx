@@ -26,13 +26,13 @@ export function ProjectCard({ pr, slug }: { pr: Project; slug: FullSlug }) {
             <summary class="pf-btn">Abstract</summary>
             <div class="pf-abstract-body">
               {pr.abstractKo && (
-                <div class="pf-abstract-block">
+                <div class="pf-abstract-block i18n-ko">
                   <span class="pf-abstract-lang">한국어</span>
                   <p>{pr.abstractKo}</p>
                 </div>
               )}
               {pr.abstractEn && (
-                <div class="pf-abstract-block">
+                <div class="pf-abstract-block i18n-en">
                   <span class="pf-abstract-lang">English</span>
                   <p>{pr.abstractEn}</p>
                 </div>

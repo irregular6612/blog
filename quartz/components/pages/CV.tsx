@@ -1,5 +1,7 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 import type { CVEntry } from "../../util/portfolio"
+import { localizedPair } from "../../util/portfolio"
+import { T } from "../LangText"
 
 function EntryRow({ e }: { e: CVEntry }) {
   return (
@@ -25,7 +27,9 @@ const CV: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
       <section class="pf-hero cv-hero">
         <div class="pf-hero-main">
           <h1 class="pf-name">{profile.name} — CV</h1>
-          <p class="pf-role">{profile.role}</p>
+          <p class="pf-role">
+            <T {...localizedPair(profile.role)} />
+          </p>
           {cv.pdf ? (
             <a class="pf-contact" href={cv.pdf} target="_blank" rel="noopener noreferrer">
               ⬇ Download PDF
