@@ -55,7 +55,12 @@ html[saved-lang="ko"] .i18n-en {
     color: var(--gray);
   }
 
-  &[aria-checked="true"] {
+  // Flip the knob to the KO position. Driven by BOTH aria-checked (updated on
+  // click) and the saved-lang attribute (set before first paint by the inline
+  // script) so a returning Korean visitor's knob is already flipped on load —
+  // no EN→KO flicker, matching darkmode's attribute-driven icon approach.
+  &[aria-checked="true"],
+  :root[saved-lang="ko"] & {
     & .langtoggle-track {
       background: var(--secondary);
     }

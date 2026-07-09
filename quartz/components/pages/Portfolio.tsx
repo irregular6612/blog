@@ -342,7 +342,6 @@ Portfolio.css = `
 .pf-abstract[open] > summary { background: var(--secondary); color: var(--light); border-color: var(--secondary); }
 .pf-abstract-body { margin-top: 0.55rem; }
 .pf-abstract-inline { margin-top: 0.25rem; }
-.pf-abstract-block + .pf-abstract-block { margin-top: 0.6rem; }
 .pf-abstract-lang { display: inline-block; font-size: 0.7rem; letter-spacing: 0.11em; text-transform: uppercase; color: var(--gray); font-weight: 600; margin-bottom: 0.2rem; }
 .pf-abstract-block p { margin: 0; font-size: 0.95rem; line-height: 1.6; }
 .pf-badge { margin-left: auto; font-size: 0.74rem; padding: 0.2rem 0.6rem; border-radius: 999px; font-weight: 600; white-space: nowrap; }
