@@ -1,21 +1,36 @@
 name: Juhyeon Park
-role: Undergraduate Researcher
+role:
+  en: Undergraduate Researcher
+  ko: 학부 연구생
 affiliation:
   lab: { name: DS Lab, url: https://sundong.kim }
   pi: { name: Sundong Kim, url: https://sundong.kim }
   institution: { name: GIST, url: https://www.gist.ac.kr, country: South Korea }
-bio: >
-  I want to build AI that feels a bit more human. I keep asking myself one question. What
-  makes us human?
-about: >
-  Can an AI act like it has its own self and its own wants, and not just answer questions
-  well? Right now, most AI research is about
-  getting more answers right. But being right is not enough to build the kind of
-  human-like AI I dream about. Think about how people act. When we get something wrong, we
-  change our guess and try again. We keep working toward a goal even when nobody tells us
-  to. I want to study these very human habits, like having a sense of who you are, feeling
-  motivated, and wanting things. And I want to find clear ways to measure them, so AI
-  research can test them too.
+bio:
+  en: >
+    I want to build AI that feels a bit more human. I keep asking myself one question. What
+    makes us human?
+  ko: >
+    저는 조금 더 인간적인 AI를 만들고 싶습니다. 그래서 스스로에게 한 가지 질문을 계속 던집니다.
+    무엇이 우리를 인간으로 만드는가?
+about:
+  en: >
+    Can an AI act like it has its own self and its own wants, and not just answer questions
+    well? Right now, most AI research is about
+    getting more answers right. But being right is not enough to build the kind of
+    human-like AI I dream about. Think about how people act. When we get something wrong, we
+    change our guess and try again. We keep working toward a goal even when nobody tells us
+    to. I want to study these very human habits, like having a sense of who you are, feeling
+    motivated, and wanting things. And I want to find clear ways to measure them, so AI
+    research can test them too.
+  ko: >
+    AI가 단지 질문에 잘 답하는 것을 넘어, 자기 자신과 자신만의 욕구를 가진 것처럼 행동할 수
+    있을까요? 지금의 AI 연구는 대부분 더 많은 답을 맞히는 데 초점이 맞춰져 있습니다. 하지만 제가
+    꿈꾸는 인간적인 AI를 만들기에는 정답을 맞히는 것만으로는 충분하지 않습니다. 사람의 행동을
+    떠올려 보세요. 우리는 무언가를 틀리면 생각을 바꿔 다시 시도합니다. 아무도 시키지 않아도 목표를
+    향해 계속 나아갑니다. 저는 자기 자신에 대한 감각, 동기, 그리고 무언가를 원하는 마음 같은 지극히
+    인간적인 습성을 연구하고 싶습니다. 그리고 AI 연구도 그것들을 검증할 수 있도록, 이를 명확하게
+    측정하는 방법을 찾고 싶습니다.
 photo: static/profile/profile.jpg
 interests:
   - Human-like AI
