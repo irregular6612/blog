@@ -22,13 +22,13 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       # 1) 블로그(Quartz) 레포
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         #with:
         #  fetch-depth: 0 # Fetch all history for git info
 
       # 2) 콘텐츠 레포를 content/ 경로에 체크아웃
       #    공개 레포면 아래 그대로. (private이면 3-2 참고)
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           repository: irregular6612/blog-content
           path: content
@@ -36,7 +36,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
 
         # 3) Quartz 빌드
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 22
 
@@ -47,7 +47,7 @@ jobs:
 
       # 4) Pages 업로드
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: public
 
